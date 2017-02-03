@@ -9,7 +9,7 @@ git clone https://github.com/remotain/WA105_LightSoft.git
 ```
 Install
 -------
-The package depends only on [ROOT](http://root.cern.ch/) v5-34-34. The compatibility with other versions is not granted. 
+The package depends only on [ROOT](http://root.cern.ch/) v5-34-34. The compatibility with more recent versions (ROOOT-6) is not granted. 
 
 Make sure your ```$ROOTSYS``` variable is set and pointing to a valid ROOT installation.
 
