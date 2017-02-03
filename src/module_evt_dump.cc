@@ -16,6 +16,13 @@ void module_evt_dump::process( event * evt){
 	std::cout << "\t Num. of samples  : " << evt->get_nsamples()    << std::endl; 
 	std::cout << "\t Sample frequency : " << evt->get_time_sample() << std::endl; 
 	std::cout << "" << std::endl;			
+	std::cout << "\t Waveform ch0 : " << evt->get_waveform(0) << std::endl;  
+	std::cout << "\t pedestal     : " << evt->get_reco_pedestal(0) << "+/-" << evt->get_reco_pedestal_std(0) << std::endl;  
+	std::cout << "\t charge       : " << evt->get_reco_charge(0) << std::endl;  
+	std::cout << "" << std::endl;			
+	std::cout << "\t Waveform ch1 : " << evt->get_waveform(1) << std::endl;  
+	std::cout << "\t pedestal     : " << evt->get_reco_pedestal(1) << "+/-" << evt->get_reco_pedestal_std(1) << std::endl;  
+	std::cout << "\t charge       : " << evt->get_reco_charge(1) << std::endl;  
 		
 }
 

@@ -1,9 +1,30 @@
-//////////////////////////////////////////////////////////
-// This class has been automatically generated on
-// Wed Feb  1 13:41:22 2017 by ROOT version 5.34/34
-// from TTree midas_data/MIDAS data
-// found on file: output_000211.root
-//////////////////////////////////////////////////////////
+/**
+
+    loop.h
+    Purpose: Handle event loop over a TChain
+
+    @author Alberto Remoto
+    @version 1.0 2017-02-03
+
+	Description: the class has been generated automatically from 
+	TChain::MakeSelector() in order to handle correctly the loop
+	over chained tree. In the implementation proposed here the 
+	information extracted from the TChain is passed to a class 
+	"event" which instantiate its data memeber over the TChain
+	branches. The "loop::Process" function pass the event to a 
+	list of module defined by the user for event processing.
+
+	The user is suppose to interface this class within a ROOT 
+	macro as follows:
+
+	'''
+	TChain * t = new TChain("midas_data");
+	t->Add("../examples/output_000211.root");
+	loop * l = new loop();
+    t->Process(l);
+	'''
+
+*/
 
 #ifndef loop_h
 #define loop_h
@@ -21,36 +42,14 @@ using namespace std;
 #include "event.h"
 #include "module.h"
 
-// Header file for the classes stored in the TTree if any.
-
-// Fixed size dimensions of array or collections stored in the TTree if any.
-
 class loop : public TSelector {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
 
-   event          *_event;
+   event          *_event;  //!pointer to the event
    
-   vector<module*> _module_list;
+   vector<module*> _module_list; //!list of module to be executed over each event
    
-   // Declaration of leaf types
-   //Int_t           TimeStamp;
-   //Int_t           nevent;
-   //Int_t           nchannels;
-   //Int_t           nsamples;
-   //Int_t           TimeSample;
-   //Int_t           adc_value_0[1000];
-   //Int_t           adc_value_1[1000];
-
-   // List of branches
-   //TBranch        *b_TimeStamp;   //!
-   //TBranch        *b_nevent;   //!
-   //TBranch        *b_nchannels;   //!
-   //TBranch        *b_nsamples;   //!
-   //TBranch        *b_TimeSample;   //!
-   //TBranch        *b_adc_value_0;   //!
-   //TBranch        *b_adc_value_1;   //!
-
    loop(TTree * /*tree*/ =0) : fChain(0), _event(0) { _event = new event(); }
    
    virtual ~loop() { }
@@ -89,17 +88,8 @@ void loop::Init(TTree *tree)
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
-   //fChain->SetMakeClass(1);
 
    _event->init(fChain);
-
-   //fChain->SetBranchAddress("TimeStamp", &TimeStamp, &b_TimeStamp);
-   //fChain->SetBranchAddress("event", &event, &b_event);
-   //fChain->SetBranchAddress("nchannels", &nchannels, &b_nchannels);
-   //fChain->SetBranchAddress("nsamples", &nsamples, &b_nsamples);
-   //fChain->SetBranchAddress("TimeSample", &TimeSample, &b_TimeSample);
-   //fChain->SetBranchAddress("adc_value_0", adc_value_0, &b_adc_value_0);
-   //fChain->SetBranchAddress("adc_value_1", adc_value_1, &b_adc_value_1);
 
 }
 

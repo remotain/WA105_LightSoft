@@ -1,27 +1,31 @@
-#define loop_cxx
-// The class definition in loop.h has been generated automatically
-// by the ROOT utility TTree::MakeSelector(). This class is derived
-// from the ROOT class TSelector. For more information on the TSelector
-// framework see $ROOTSYS/README/README.SELECTOR or the ROOT User Manual.
+/**
 
-// The following methods are defined in this file:
-//    Begin():        called every time a loop on the tree starts,
-//                    a convenient place to create your histograms.
-//    SlaveBegin():   called after Begin(), when on PROOF called only on the
-//                    slave servers.
-//    Process():      called for each event, in this function you decide what
-//                    to read and fill your histograms.
-//    SlaveTerminate: called at the end of the loop on the tree, when on PROOF
-//                    called only on the slave servers.
-//    Terminate():    called at the end of the loop on the tree,
-//                    a convenient place to draw/fit your histograms.
-//
-// To use this file, try the following session on your Tree T:
-//
-// Root > T->Process("loop.C")
-// Root > T->Process("loop.C","some options")
-// Root > T->Process("loop.C+")
-//
+    loop.h
+    Purpose: Handle event loop over a TChain
+
+    @author Alberto Remoto
+    @version 1.0 2017-02-03
+
+ 	The class definition in loop.h has been generated automatically
+ 	by the ROOT utility TTree::MakeSelector(). This class is derived
+ 	from the ROOT class TSelector. For more information on the TSelector
+ 	framework see $ROOTSYS/README/README.SELECTOR or the ROOT User Manual.
+ 	
+ 	The following methods are defined in this file:
+ 	   Begin():        called every time a loop on the tree starts,
+ 	                   a convenient place to create your histograms.
+ 	   SlaveBegin():   called after Begin(), when on PROOF called only on the
+ 	                   slave servers.
+ 	   Process():      called for each event, in this function you decide what
+ 	                   to read and fill your histograms.
+ 	   SlaveTerminate: called at the end of the loop on the tree, when on PROOF
+ 	                   called only on the slave servers.
+ 	   Terminate():    called at the end of the loop on the tree,
+ 	                   a convenient place to draw/fit your histograms.
+
+**/
+
+#define loop_cxx
 
 #include "loop.h"
 #include <TH2.h>
@@ -47,6 +51,7 @@ void loop::SlaveBegin(TTree * /*tree*/)
 
    TString option = GetOption();
 
+	// The module::begin() function is called of each module present in the _module_list
    for(int i = 0; i < _module_list.size(); i++) {
        _module_list[i]->begin();
    }
@@ -77,8 +82,12 @@ Bool_t loop::Process(Long64_t entry)
 		Info("Process()", "Entry %lli" , entry );
 	}
 	
+	_event->clean();
+	
 	GetEntry(entry);
 	
+	// Each event is passed to the module::process() of each module present in the
+	// _module_list for processing
     for(int i = 0; i < _module_list.size(); i++) {
         _module_list[i]->process(_event);
     }
@@ -94,6 +103,7 @@ void loop::SlaveTerminate()
    // have been processed. When running with PROOF SlaveTerminate() is called
    // on each slave server.
 
+	// The module::temrinate() function is called of each module present in the _module_list
     for(int i = 0; i < _module_list.size(); i++) {
         _module_list[i]->terminate();
     }

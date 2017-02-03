@@ -6,7 +6,6 @@
 #include "module.h"
 #include "event.h"
 
-
 class module_pedestal : public module {
 
 public:
@@ -16,10 +15,15 @@ public:
     virtual ~module_pedestal() { };
 
 	virtual void begin();
-	virtual void process( event * e);
+	virtual void process( event * evt);
 	virtual void terminate();
 
+	virtual double avg_ped_value( std::vector<int> * waveform);
+	virtual double std_ped_value( std::vector<int> * waveform);
+
 private:
+
+	int _nsample;
 
 	ClassDef(module_pedestal,0);
 	
