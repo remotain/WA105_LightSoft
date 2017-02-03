@@ -16,15 +16,18 @@
 	//
 	loop * l = new loop();
 	//
-	//
+	// Add modules to the even processing pipeline
 	//
 	l->add_module( new module_pedestal    );
 	l->add_module( new module_charge      );
 	l->add_module( new module_evt_dump    );
-	//l->add_module( new module_evt_display );
 	//
-	//
-	//
-    t->Process(l);
+	// Run the loop
 	//	
+    t->Process(l);
+	//
+	// Save plots to file
+	//	
+	plotter::get_me().save_as("test.pdf");
+	//
 }

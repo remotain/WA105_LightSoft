@@ -1,15 +1,15 @@
-/**
+/*
 
-    event.h
-    Purpose: Define the interface to interact with the event
-
-    @author Alberto Remoto
-    @version 1.0 2017-02-03
-
+	event.h
+	Purpose: Define the interface to interact with the event
+		
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
 	Description: the class define the interface to interact with the event.
-
+	
 	The following data member are extracted from the input TChain:
-
+	
 	'''
 	int _time_stamp        ;
 	int _nevent            ;
@@ -18,7 +18,7 @@
 	int _time_sample       ;
 	int _adc_value_0[1000] ;
 	int _adc_value_1[1000] ;
-    '''
+	'''
 	
 	Datamemeber containing "reco" in their name are obtained from processing 
 	throug dedicated module:
@@ -32,8 +32,8 @@
 	The variable "_nchannels_active" represent the number of active channel 
 	to be expected. At the moment is defined in the class constructor but in 
 	future it is expected to be defined either globally or by the user
-
-
+	
+	
 */
 
 #ifndef event_h

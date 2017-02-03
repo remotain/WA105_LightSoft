@@ -1,14 +1,14 @@
-/**
-
-    event.h
-    Purpose: Define the interface to interact with the event
-
-    @author Alberto Remoto
-    @version 1.0 2017-02-03
-
+/*
+	
+	event.h
+	Purpose: Define the interface to interact with the event
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
 	Description: the class define the interface to interact with the event.
-
-**/ 
+	
+*/ 
 
 #define event_cxx
 

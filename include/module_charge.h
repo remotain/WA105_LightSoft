@@ -1,3 +1,13 @@
+/*
+	
+	modulecharge.cc
+	Purpose: Base class for charge calculation
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
+*/
+
 #ifndef module_charge_h
 #define module_charge_h
 
