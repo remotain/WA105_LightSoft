@@ -15,8 +15,11 @@ Libraries are located in ```build/lib ```
 
 Usage
 -----
-The directoy macro provide some usage example:
+To setup the framework's environment:
 ```bash
 source setup.sh
+```
+Run the macros available in the ```macro```directory:
+```bash
 root macro/test.C
 ```
