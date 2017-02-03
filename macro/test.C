@@ -2,7 +2,7 @@
 	//
 	// Load library
 	//
-	gSystem->Load("../build/lib/libLightSoft.dylib");
+	gSystem->Load("$WLS_PATH/build/lib/libLightSoft.dylib");
 	//
 	// Create the TChain to process
 	//
@@ -10,7 +10,7 @@
 	//
 	// Add root file to process
 	//
-	t->Add("../examples/output_000211.root");
+	t->Add("$WLS_PATH/examples/output_000211.root");
 	//
 	// Create the loop object
 	//
@@ -28,6 +28,6 @@
 	//
 	// Save plots to file
 	//	
-	plotter::get_me().save_as("test.pdf");
+	plotter::get_me().save_as("$WLS_PATH/examples/test.pdf");
 	//
 }

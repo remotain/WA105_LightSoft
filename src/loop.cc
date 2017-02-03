@@ -1,6 +1,6 @@
 /**
 
-    loop.h
+    loop.cc
     Purpose: Handle event loop over a TChain
 
     @author Alberto Remoto

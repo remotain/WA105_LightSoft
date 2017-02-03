@@ -1,6 +1,6 @@
 /*
 	
-	event.h
+	event.cc
 	Purpose: Define the interface to interact with the event
 	
 	@author Alberto Remoto

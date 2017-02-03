@@ -1,6 +1,6 @@
 /*
 	
-	modulecharge.cc
+	module_charge.cc
 	Purpose: Base class for charge calculation
 	
 	@author Alberto Remoto

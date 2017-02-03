@@ -1,3 +1,13 @@
+/*
+	
+	module_evt_dump.h
+	Purpose: Base class to dump events on the terminal
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
+*/
+
 #ifndef module_evt_dump_h
 #define module_evt_dump_h
 

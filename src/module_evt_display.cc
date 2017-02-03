@@ -1,3 +1,15 @@
+/*
+	
+	module_evt_display.cc
+	Purpose: Base class to display events
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+
+	This module is currently not working properly.
+	
+*/
+
 #define module_evt_display_cxx
 
 #include "module_evt_display.h"
@@ -47,37 +59,37 @@ void module_evt_display::process( event * evt){
 		
 	}
     			
-	c->cd(1); waveform_0->Draw("HIST"); 
-	c->cd(3); charge_0->Draw("HIST"); c->cd(3)->Modified(); c->cd(3)->Update();
-	
-	c->cd(2); waveform_1->Draw("HIST"); 
-	c->cd(4); charge_1->Draw("HIST"); c->cd(4)->Modified(); c->cd(4)->Update();
-    
-	TTimer * timer = new TTimer("gSystem->ProcessEvents();", 50, kFALSE);
-	timer->TurnOn();
-	timer->Reset();
-    
-    while (1) {
-    
-		c->Modified(); c->Update(); c->WaitPrimitive();
-	    
-		gSystem->ProcessEvents();
-			
-		char key;	
-		std::cout<< " (return to next event, q to quit): "; 
-		std::cin.get(key);
-    
-		if( key == 'q' || key == 'Q') 
-			gSystem->Exit(0);
-		else
-			break;
-				 
-		  
-      }
-    
-  	timer->TurnOff();
-    
-  	delete timer;
+	//c->cd(1); waveform_0->Draw("HIST"); 
+	//c->cd(3); charge_0->Draw("HIST"); c->cd(3)->Modified(); c->cd(3)->Update();
+	//
+	//c->cd(2); waveform_1->Draw("HIST"); 
+	//c->cd(4); charge_1->Draw("HIST"); c->cd(4)->Modified(); c->cd(4)->Update();
+    //
+	//TTimer * timer = new TTimer("gSystem->ProcessEvents();", 50, kFALSE);
+	//timer->TurnOn();
+	//timer->Reset();
+    //
+    //while (1) {
+    //
+	//	c->Modified(); c->Update(); c->WaitPrimitive();
+	//    
+	//	gSystem->ProcessEvents();
+	//		
+	//	char key;	
+	//	std::cout<< " (return to next event, q to quit): "; 
+	//	std::cin.get(key);
+    //
+	//	if( key == 'q' || key == 'Q') 
+	//		gSystem->Exit(0);
+	//	else
+	//		break;
+	//			 
+	//	  
+    //  }
+    //
+  	//timer->TurnOff();
+    //
+  	//delete timer;
 	delete waveform_0;
 	delete waveform_1;
 	delete charge_0;

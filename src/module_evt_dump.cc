@@ -1,11 +1,23 @@
+/*
+	
+	module_evt_dump.cc
+	Purpose: Base class to dump events on the terminal
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
+	Description: the module dump event information on the terminal. 
+	The implementation is still incomplete.
+	
+*/
+
+
 #define module_evt_dump_cxx
 
 #include "module_evt_dump.h"
 #include <iostream>
 
-void module_evt_dump::begin(){
-
-}
+void module_evt_dump::begin(){;}
 
 void module_evt_dump::process( event * evt){
 	

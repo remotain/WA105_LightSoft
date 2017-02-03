@@ -1,11 +1,11 @@
 /*	
-	plotter.h
+	plotter.cc
 	Purpose: handle plotting function of the framework
 		
 	@author Alberto Remoto
 	@version 1.0 2017-02-03
 	
-	Description: please refer to the class definition in include/module.h
+	Description: please refer to the class definition in include/plotter.h
 
 */
 

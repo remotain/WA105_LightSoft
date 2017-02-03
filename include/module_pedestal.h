@@ -1,6 +1,6 @@
 /**
 	
-	module_pedestal.cc
+	module_pedestal.h
 	Purpose: Base class for pedestal calculation
 	
 	@author Alberto Remoto

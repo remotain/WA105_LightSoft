@@ -1,3 +1,13 @@
+/*
+	
+	module_evt_display.h
+	Purpose: Base class to display events
+	
+	@author Alberto Remoto
+	@version 1.0 2017-02-03
+	
+*/
+
 #ifndef module_evt_display_h
 #define module_evt_display_h
 
