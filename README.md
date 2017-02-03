@@ -10,6 +10,7 @@ git clone https://github.com/remotain/WA105_LightSoft.git
 Install
 -------
 ```bash
+cd WA105_LightSoft/
 mkdir build && cd build
 cmake ../
 make
