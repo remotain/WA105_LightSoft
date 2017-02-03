@@ -11,7 +11,7 @@ make
 ```
 The package depends only on [ROOT](http://root.cern.ch/).
 
-Library will be installed in ```bash build/lib ```
+Libraries are located in ```build/lib ```
 
 Usage
 -----
