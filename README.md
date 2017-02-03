@@ -16,8 +16,9 @@ Make sure your ```$ROOTSYS``` variable is set and pointing to a valid ROOT insta
 ```bash
 cd WA105_LightSoft/
 mkdir build && cd build
-cmake ../
-make
+cmake ../ 
+make 
+cd ../
 ```
 Libraries are located in ```build/lib ```
 
