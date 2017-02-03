@@ -20,7 +20,7 @@ cmake ../
 make 
 cd ../
 ```
-Libraries are located in ```build/lib ```
+Libraries are located in ```WA105_LightSoft/build/lib ```
 
 Usage
 -----
