@@ -2,6 +2,11 @@
 
 Process and reconstruct light signal from the WA105 3x1x1 prototype
 
+Download
+--------
+```bash
+git clone https://github.com/remotain/WA105_LightSoft.git
+```
 Install
 -------
 ```bash
