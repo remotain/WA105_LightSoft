@@ -11,10 +11,12 @@ make
 ```
 The package depends only on [ROOT](http://root.cern.ch/).
 
+Library will be installed in ```bash build/lib ```
+
 Usage
 -----
 The directoy macro provide some usage example:
 ```bash
-cd macro
-root test.C
+source setup.sh
+root macro/test.C
 ```
