@@ -2,7 +2,7 @@
 	//
 	// Load library
 	//
-	gSystem->Load("$WLS_PATH/build/lib/libLightSoft.dylib");
+	gSystem->Load("$WLS_PATH/build/lib/libLightSoft");
 	//
 	// Create the TChain to process
 	//
