@@ -1,7 +1,9 @@
 # Check if cmake has the required version
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
 
+if(APPLE)
 cmake_policy(SET CMP0042 NEW)
+endif()
 
 project(LightSoft)
 
