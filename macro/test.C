@@ -28,6 +28,6 @@
 	//
 	// Save plots to file
 	//	
-	plotter::get_me().save_as("$WLS_PATH/examples/test.pdf");
+	plotter::get_me().save_as("test.pdf");
 	//
 }
