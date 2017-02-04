@@ -61,12 +61,12 @@ std::vector<int> * event::get_waveform( int ch ){
 	
 	if ( ch == 0) {
 		if ( _waveform_0 == 0 ){
-			_waveform_0 = new std::vector<int>( _adc_value_0 , std::end(_adc_value_0) ) ;
+			_waveform_0 = new std::vector<int>( _adc_value_0 , &_adc_value_0[_nsamples-1] ) ;
 		} return _waveform_0 ;
 	}
 	else if ( ch == 1) {      
 		if ( _waveform_1 == 0 ){
-			_waveform_1 = new std::vector<int>( _adc_value_1 , std::end(_adc_value_1) ) ;
+			_waveform_1 = new std::vector<int>( _adc_value_1 , &_adc_value_1[_nsamples-1] ) ;
 		} return _waveform_1 ;
 	}
 	return 0; 
