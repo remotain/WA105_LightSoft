@@ -33,10 +33,8 @@ public:
 
     TCanvas * c; //! Canvas to display the event
 	
-    TH1F * waveform_0, * waveform_1; //! TH1F to display the waveform
-	TH1F * charge_0, * charge_1;     //! TH1F to display the charge distribution
-
-
+	std::vector<TH1F*> _waveform;
+	
 private:
 
 	ClassDef(module_evt_display,0);

@@ -19,8 +19,9 @@
 	// Add modules to the even processing pipeline
 	//
 	l->add_module( new module_pedestal    );
-	l->add_module( new module_charge      );
-	l->add_module( new module_evt_dump    );
+	//l->add_module( new module_charge      );
+	//l->add_module( new module_evt_dump    );
+	//l->add_module( new module_evt_display );
 	//
 	// Run the loop
 	//	
@@ -29,5 +30,6 @@
 	// Save plots to file
 	//	
 	plotter::get_me().save_as("test.pdf");
+	plotter::get_me().save_as("test.root");
 	//
 }

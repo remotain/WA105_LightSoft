@@ -48,18 +48,24 @@ class event : public TObject {
 
 public:
 
-    event(): _chain(0), _waveform_0(0), _waveform_1(0) { 
+    event(): _chain(0),
+		 	 _waveform_0(0),
+			 _waveform_1(0),
+			 _waveform_2(0),
+			 _waveform_3(0),
+			 _waveform_4(0) { 
 	
 		_nchannels_active = 2;
 
-		clean();
+		reset();
 
 	};
 	event(event &) { };
     virtual ~event() { };
 
 	void init( TTree * tree );
-	void clean();
+	void reset();
+	void assign();
 
 	void set_time_stamp  ( int a_value ) { _time_stamp  = a_value ; };
 	void set_nevent      ( int a_value ) { _nevent      = a_value ; };
@@ -95,20 +101,26 @@ public:
 	};
 
 	TTree * get_chain() {return _chain; };
+
+	int              get_n_channels_active() { return _nchannels_active; };
 	
 	int              get_time_stamp  ( ) { return _time_stamp   ; };
 	int              get_nevent      ( ) { return _nevent       ; };
 	int              get_nchannels   ( ) { return _nchannels    ; };
 	int              get_nsamples    ( ) { return _nsamples     ; };
 	int              get_time_sample ( ) { return _time_sample  ; };
+
 	int*             get_adc_value_0 ( ) { return _adc_value_0  ; };
 	int*             get_adc_value_1 ( ) { return _adc_value_1  ; };
+	int*             get_adc_value_2 ( ) { return _adc_value_2  ; };
+	int*             get_adc_value_3 ( ) { return _adc_value_3  ; };
+	int*             get_adc_value_4 ( ) { return _adc_value_4  ; };
 
 	std::vector<int> * get_waveform ( int ch );
 
-	double           get_reco_pedestal     ( int ch ) { return (ch < _nchannels ) ? _reco_pedestals[ch]     : -1 ; };
-	double           get_reco_pedestal_std ( int ch ) { return (ch < _nchannels ) ? _reco_pedestals_std[ch] : -1 ; };
-	double           get_reco_charge       ( int ch ) { return (ch < _nchannels ) ? _reco_charges[ch]       : -1 ; };
+	double           get_reco_pedestal     ( int ch ) { return (ch < _nchannels_active ) ? _reco_pedestals[ch]     : -1 ; };
+	double           get_reco_pedestal_std ( int ch ) { return (ch < _nchannels_active ) ? _reco_pedestals_std[ch] : -1 ; };
+	double           get_reco_charge       ( int ch ) { return (ch < _nchannels_active ) ? _reco_charges[ch]       : -1 ; };
 
 private:
 	
@@ -123,10 +135,17 @@ private:
     int              _time_sample      ;
     int              _adc_value_0[1000];
     int              _adc_value_1[1000];
-
+    int              _adc_value_2[1000];
+    int              _adc_value_3[1000];
+    int              _adc_value_4[1000];
 
 	std::vector<int>      *_waveform_0;
 	std::vector<int>      *_waveform_1;
+	std::vector<int>      *_waveform_2;
+	std::vector<int>      *_waveform_3;
+	std::vector<int>      *_waveform_4;
+
+	//std::vector< * std::vector<int> > _waveform;
 
 	std::vector<double>   _reco_pedestals       ;
 	std::vector<double>   _reco_pedestals_std   ;
@@ -140,6 +159,9 @@ private:
     TBranch            *_b_time_sample;  //! Input branch
     TBranch            *_b_adc_value_0;  //! Input branch
     TBranch            *_b_adc_value_1;  //! Input branch
+    TBranch            *_b_adc_value_2;  //! Input branch
+    TBranch            *_b_adc_value_3;  //! Input branch
+    TBranch            *_b_adc_value_4;  //! Input branch
 	
 ClassDef(event,0);
 	

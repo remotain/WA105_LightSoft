@@ -39,7 +39,7 @@ void loop::Begin(TTree * /*tree*/)
 
    TString option = GetOption();
 
-   Info("Begin()", "Begin process" );
+   Info("Begin", "Begin process" );
 
 }
 
@@ -79,10 +79,9 @@ Bool_t loop::Process(Long64_t entry)
    // The return value is currently not used.
 
 	if (entry % 100 == 0){
-		Info("Process()", "Entry %lli" , entry );
+		Info("Process", "Entry %lli" , entry );
 	}
 	
-	_event->clean();
 	
 	GetEntry(entry);
 	
@@ -118,6 +117,6 @@ void loop::Terminate()
    // a query. It always runs on the client, it can be used to present
    // the results graphically or save the results to file.
 
-   Info("Terminate()", "Terminate process" );
+   Info("Terminate", "Terminate process" );
 
 }

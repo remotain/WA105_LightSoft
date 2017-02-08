@@ -59,7 +59,8 @@ public :
    virtual void    Init(TTree *tree);
    virtual Bool_t  Notify();
    virtual Bool_t  Process(Long64_t entry);
-   virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0) { return fChain ? fChain->GetTree()->GetEntry(entry, getall) : 0; }
+   //virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0) { return fChain ? fChain->GetTree()->GetEntry(entry, getall) : 0; }
+   virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0);
    virtual void    SetOption(const char *option) { fOption = option; }
    virtual void    SetObject(TObject *obj) { fObject = obj; }
    virtual void    SetInputList(TList *input) { fInput = input; }
@@ -102,6 +103,20 @@ Bool_t loop::Notify()
    // user if needed. The return value is currently not used.
 
    return kTRUE;
+}
+
+Int_t loop::GetEntry(Long64_t entry, Int_t getall)
+{
+
+	Int_t val = 0;
+	
+	if( fChain){
+		val = fChain->GetTree()->GetEntry(entry, getall);
+		_event->assign(); // set internal pointers for the new events
+		
+	}
+	
+	return val;
 }
 
 #endif // #ifdef loop_cxx

@@ -65,6 +65,7 @@ public:
 	//void add( TH2 * h ) { _collection->Add(h); };
 
 	TH1 * find( const char* name );
+	TH2 * find2d( const char* name );
 	
 	THashList * get_collection(){ return _collection; };
 	

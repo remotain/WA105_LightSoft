@@ -34,23 +34,33 @@ void event::init( TTree * tree ) {
 
 }
 
-
-void event::clean(){
+void event::reset(){
 	
-	// Clean all the data member of the current events
-	
-	_time_stamp        = -1;
-	_nevent            = -1;
-	_nchannels         = -1;
-	_nsamples          = -1;
-	_time_sample       = -1;
+	// Clean vectors and pointer
 	
 	delete _waveform_0; _waveform_0 = 0;
 	delete _waveform_1; _waveform_1 = 0;
+	delete _waveform_2; _waveform_2 = 0;
+	delete _waveform_3; _waveform_3 = 0;
+	delete _waveform_4; _waveform_4 = 0;
 	
 	_reco_pedestals.assign(_nchannels_active,-1.); 
 	_reco_pedestals_std.assign(_nchannels_active,-1.); 
     _reco_charges.assign(_nchannels_active, -1.);   
+	
+}
+
+void event::assign(){
+	
+	// Assign the pointers for the new event
+	
+	reset();
+	
+	_waveform_0 = new std::vector<int>( _adc_value_0 , &_adc_value_0[_nsamples-1] ) ;
+	_waveform_1 = new std::vector<int>( _adc_value_1 , &_adc_value_1[_nsamples-1] ) ;
+	_waveform_2 = new std::vector<int>( _adc_value_2 , &_adc_value_2[_nsamples-1] ) ;
+	_waveform_3 = new std::vector<int>( _adc_value_3 , &_adc_value_3[_nsamples-1] ) ;
+	_waveform_4 = new std::vector<int>( _adc_value_4 , &_adc_value_4[_nsamples-1] ) ;
 	
 }
 
@@ -59,16 +69,12 @@ std::vector<int> * event::get_waveform( int ch ){
 	// Return a pointer to the waveform of a given channel. If the pointer is not
 	// yet defined, the function create it before returning.
 	
-	if ( ch == 0) {
-		if ( _waveform_0 == 0 ){
-			_waveform_0 = new std::vector<int>( _adc_value_0 , &_adc_value_0[_nsamples-1] ) ;
-		} return _waveform_0 ;
-	}
-	else if ( ch == 1) {      
-		if ( _waveform_1 == 0 ){
-			_waveform_1 = new std::vector<int>( _adc_value_1 , &_adc_value_1[_nsamples-1] ) ;
-		} return _waveform_1 ;
-	}
+	if      ( ch == 0) return _waveform_0 ;
+	else if ( ch == 1) return _waveform_1 ;
+	else if ( ch == 2) return _waveform_2 ;
+	else if ( ch == 3) return _waveform_3 ;
+	else if ( ch == 4) return _waveform_4 ;
+	
 	return 0; 
 
 }

@@ -18,7 +18,7 @@
 #include "module_pedestal.h"
 #include <iostream>
 #include <TMath.h>
-
+#include <TProfile.h>
 #include "plotter.h"
 
 void module_pedestal::begin(){
@@ -30,19 +30,25 @@ void module_pedestal::begin(){
 	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution", 100, 2100, 2200) ); 
 	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution", 100, 0, 10) ); 
 	
+	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution", 5, 0, 5, 100, 2100, 2200) ); 
+	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution", 5, 0, 5, 2100, 2200) ); 
+	
 };
 
 void module_pedestal::process( event * evt){
 	
 	// For each active channel, calculate the pedestal average and the standard 
 	// deviation and set the values through the event interface.
-	for (int i = 0; i < evt->get_nchannels(); i++){
+	for (int ch = 0; ch < evt->get_nchannels(); ch++){
 		
-		evt->set_reco_pedestal( i,  calculate_pedestal_average( evt->get_waveform(i) ) );
-		evt->set_reco_pedestal_std( i,  calculate_pedestal_standard_deviation( evt->get_waveform(i) ) );		
+		evt->set_reco_pedestal( ch,  calculate_pedestal_average( evt->get_waveform(ch) ) );
+		evt->set_reco_pedestal_std( ch,  calculate_pedestal_standard_deviation( evt->get_waveform(ch) ) );		
 		
-		plotter::get_me().find("pedestal_avg_distributions")->Fill( evt->get_reco_pedestal(i) ) ;
-		plotter::get_me().find("pedestal_std_distributions")->Fill( evt->get_reco_pedestal_std(i) ) ;	
+		plotter::get_me().find("pedestal_avg_distributions")->Fill( evt->get_reco_pedestal(ch) ) ;
+		plotter::get_me().find("pedestal_std_distributions")->Fill( evt->get_reco_pedestal_std(ch) ) ;	
+		
+		plotter::get_me().find("pedestal_map")->Fill( ch, evt->get_reco_pedestal(ch) ) ;
+		plotter::get_me().find("pedestal_profile")->Fill( ch, evt->get_reco_pedestal(ch) ) ;
 			
 	}
 	
