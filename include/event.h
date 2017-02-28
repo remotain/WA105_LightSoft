@@ -56,11 +56,13 @@ public:
 			 _waveform_4(0) { 
 	
 		_nchannels_active = 2;
-
+    
 		reset();
-
+    
 	};
+	
 	event(event &) { };
+	
     virtual ~event() { };
 
 	void init( TTree * tree );
@@ -133,6 +135,7 @@ private:
     int              _nchannels        ;
     int              _nsamples         ;
     int              _time_sample      ;
+
     int              _adc_value_0[1000];
     int              _adc_value_1[1000];
     int              _adc_value_2[1000];
@@ -163,7 +166,7 @@ private:
     TBranch            *_b_adc_value_3;  //! Input branch
     TBranch            *_b_adc_value_4;  //! Input branch
 	
-ClassDef(event,0);
+ClassDef(event,1);
 	
 };
 

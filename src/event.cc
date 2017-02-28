@@ -14,6 +14,8 @@
 
 #include "event.h"
 
+ClassImp(event)
+
 void event::init( TTree * tree ) {	
 	
 	// Connect the class branches to the tree to automatically retrieve and set 

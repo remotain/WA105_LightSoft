@@ -1,7 +1,7 @@
 /**
 	
 	module_output.h
-	Purpose: 
+	Purpose: Write events on output file. (DOES NOT WORK AT THE MOMENT!!)
 	
 	@author Alberto Remoto
 	@version 1.0 2017-02-09

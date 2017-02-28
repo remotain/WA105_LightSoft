@@ -18,6 +18,6 @@
 #pragma link C++ class module_charge+;
 #pragma link C++ class module_evt_dump+;
 #pragma link C++ class module_evt_display+;
-
+#pragma link C++ class module_output+;
 
 #endif

@@ -19,9 +19,12 @@
 	// Add modules to the even processing pipeline
 	//
 	l->add_module( new module_pedestal    );
-	//l->add_module( new module_charge      );
-	//l->add_module( new module_evt_dump    );
-	//l->add_module( new module_evt_display );
+	l->add_module( new module_charge      );
+	l->add_module( new module_evt_dump    );
+	l->add_module( new module_evt_display );
+
+	//l->add_module( new module_output    ); // DOES NOT WORK AT THE MOMENT!!
+
 	//
 	// Run the loop
 	//	
