@@ -27,11 +27,11 @@ void module_pedestal::begin(){
 	// already set by the user.
 	if( _nsample == -1 ) set_nsample( 100 );
 	
-	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution", 100, 2100, 2200) ); 
+	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution", 100, 0, 5000) ); 
 	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution", 100, 0, 10) ); 
 	
-	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution", 5, 0, 5, 100, 2100, 2200) ); 
-	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution", 5, 0, 5, 2100, 2200) ); 
+	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution", 5, 0, 5, 100, 0, 5000) ); 
+	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution", 5, 0, 5, 0, 5000) ); 
 	
 };
 
@@ -55,7 +55,7 @@ void module_pedestal::process( event * evt){
 };
 
 void module_pedestal::terminate(){
-	
+			
 };
 
 double module_pedestal::calculate_pedestal_average( std::vector<int> * waveform){ 

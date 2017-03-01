@@ -10,7 +10,7 @@
 	//
 	// Add root file to process
 	//
-	t->Add("$WLS_PATH/examples/output00000176");
+	t->Add("$WLS_PATH/examples/output_000176.root");
 	//
 	// Create the loop object
 	//
@@ -20,11 +20,6 @@
 	//
 	l->add_module( new module_pedestal    );
 	l->add_module( new module_charge      );
-	l->add_module( new module_evt_dump    );
-	l->add_module( new module_evt_display );
-
-	//l->add_module( new module_output    ); // DOES NOT WORK AT THE MOMENT!!
-
 	//
 	// Run the loop
 	//	
