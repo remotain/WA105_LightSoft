@@ -10,7 +10,7 @@
 	//
 	// Add root file to process
 	//
-	t->Add("$WLS_PATH/examples/output00000176");
+	t->Add("$WLS_PATH/examples/output_000176.root");
 	//
 	// Create the loop object
 	//
@@ -18,21 +18,10 @@
 	//
 	// Add modules to the even processing pipeline
 	//
-	l->add_module( new module_pedestal    );
-	l->add_module( new module_charge      );
-	l->add_module( new module_evt_dump    );
 	l->add_module( new module_evt_display );
-
-	//l->add_module( new module_output    ); // DOES NOT WORK AT THE MOMENT!!
-
 	//
 	// Run the loop
 	//	
-    t->Process(l);
-	//
-	// Save plots to file
-	//	
-	plotter::get_me().save_as("test.pdf");
-	plotter::get_me().save_as("test.root");
+	t->Process(l);
 	//
 }
