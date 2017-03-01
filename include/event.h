@@ -55,7 +55,7 @@ public:
 			 _waveform_3(0),
 			 _waveform_4(0) { 
 	
-		_nchannels_active = 2;
+		_nch = 5;
     
 		reset();
     
@@ -104,7 +104,7 @@ public:
 
 	TTree * get_chain() {return _chain; };
 
-	int              get_n_channels_active() { return _nchannels_active; };
+	int              get_n_channels_active() { return _nch; };
 	
 	int              get_time_stamp  ( ) { return _time_stamp   ; };
 	int              get_nevent      ( ) { return _nevent       ; };
@@ -112,23 +112,17 @@ public:
 	int              get_nsamples    ( ) { return _nsamples     ; };
 	int              get_time_sample ( ) { return _time_sample  ; };
 
-	int*             get_adc_value_0 ( ) { return _adc_value_0  ; };
-	int*             get_adc_value_1 ( ) { return _adc_value_1  ; };
-	int*             get_adc_value_2 ( ) { return _adc_value_2  ; };
-	int*             get_adc_value_3 ( ) { return _adc_value_3  ; };
-	int*             get_adc_value_4 ( ) { return _adc_value_4  ; };
-
 	std::vector<int> * get_waveform ( int ch );
 
-	double           get_reco_pedestal     ( int ch ) { return (ch < _nchannels_active ) ? _reco_pedestals[ch]     : -1 ; };
-	double           get_reco_pedestal_std ( int ch ) { return (ch < _nchannels_active ) ? _reco_pedestals_std[ch] : -1 ; };
-	double           get_reco_charge       ( int ch ) { return (ch < _nchannels_active ) ? _reco_charges[ch]       : -1 ; };
+	double           get_reco_pedestal     ( int ch) { return (ch < _nch ) ? _reco_pedestals[ch]     : -1 ; };
+	double           get_reco_pedestal_std ( int ch) { return (ch < _nch ) ? _reco_pedestals_std[ch] : -1 ; };
+	double           get_reco_charge       ( int ch) { return (ch < _nch ) ? _reco_charges[ch]       : -1 ; };
 
 private:
 	
 	TTree              *_chain;
 	
-	int              _nchannels_active ;
+	int              _nch ;
 	
 	int              _time_stamp       ;
     int              _nevent           ;
@@ -137,10 +131,10 @@ private:
     int              _time_sample      ;
 
     int              _adc_value_0[1000];
-    int              _adc_value_1[1000];
     int              _adc_value_2[1000];
     int              _adc_value_3[1000];
     int              _adc_value_4[1000];
+    int              _adc_value_5[1000];
 
 	std::vector<int>      *_waveform_0;
 	std::vector<int>      *_waveform_1;
@@ -161,10 +155,10 @@ private:
     TBranch            *_b_nsamples;     //! Input branch
     TBranch            *_b_time_sample;  //! Input branch
     TBranch            *_b_adc_value_0;  //! Input branch
-    TBranch            *_b_adc_value_1;  //! Input branch
     TBranch            *_b_adc_value_2;  //! Input branch
     TBranch            *_b_adc_value_3;  //! Input branch
     TBranch            *_b_adc_value_4;  //! Input branch
+    TBranch            *_b_adc_value_5;  //! Input branch
 	
 ClassDef(event,1);
 	
