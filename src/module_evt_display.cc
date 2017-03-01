@@ -24,7 +24,7 @@ void module_evt_display::begin(){
 	gROOT->SetBatch(false);
 
     c = new TCanvas("Waveform Display", "Waveform Display");
-    c->Divide(1,2);	
+    c->Divide(3,2);	
 
 }
 
