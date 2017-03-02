@@ -41,6 +41,7 @@
 #include<THashList.h>
 #include<TH1.h>
 #include<TH2.h>
+#include <TProfile.h>
 #include<TFile.h>
 #include<TCanvas.h>
 #include<TKey.h>

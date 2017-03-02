@@ -18,7 +18,6 @@
 #include "module_pedestal.h"
 #include <iostream>
 #include <TMath.h>
-#include <TProfile.h>
 #include "plotter.h"
 
 void module_pedestal::begin(){
@@ -27,11 +26,11 @@ void module_pedestal::begin(){
 	// already set by the user.
 	if( _nsample == -1 ) set_nsample( 100 );
 	
-	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution", 100, 0, 5000) ); 
-	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution", 100, 0, 10) ); 
+	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution; ADC Counts", 100, 0, 5000) ); 
+	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution; ADC Counts", 100, 0, 10) ); 
 	
-	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution", 5, 0, 5, 100, 0, 5000) ); 
-	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution", 5, 0, 5, 0, 5000) ); 
+	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 100, 2000, 2400) ); 
+	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 1500, 2500) ); 
 	
 };
 

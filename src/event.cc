@@ -32,10 +32,10 @@ void event::init( TTree * tree ) {
 	_chain->SetBranchAddress("nsamples"    , &_nsamples    , &_b_nsamples    );
 	_chain->SetBranchAddress("TimeSample"  , &_time_sample , &_b_time_sample );
 	_chain->SetBranchAddress("adc_value_0" , _adc_value_0  , &_b_adc_value_0 );
+	_chain->SetBranchAddress("adc_value_1" , _adc_value_1  , &_b_adc_value_1 );
 	_chain->SetBranchAddress("adc_value_2" , _adc_value_2  , &_b_adc_value_2 );
 	_chain->SetBranchAddress("adc_value_3" , _adc_value_3  , &_b_adc_value_3 );
 	_chain->SetBranchAddress("adc_value_4" , _adc_value_4  , &_b_adc_value_4 );
-	_chain->SetBranchAddress("adc_value_5" , _adc_value_5  , &_b_adc_value_5 );
 
 }
 
@@ -65,20 +65,20 @@ void event::assign(){
 	//
 	// FADC ch # PMT number
 	//    0    #     1
-	//    1    #   empty
-	//    2    #     2 
-	//    3    #     3
-	//    4    #     4
-	//    5    #     5
+	//    1    #     2
+	//    2    #     3   
+	//    3    #     4  
+	//    4    #     5  
+	//    5    #   empty 
 	//    6    #   empty
 	//    7    #   empty
 	//    8    #   empty
 	//
 	_waveform_0 = new std::vector<int>( _adc_value_0 , &_adc_value_0[_nsamples-1] ) ;
-	_waveform_1 = new std::vector<int>( _adc_value_2 , &_adc_value_2[_nsamples-1] ) ;
-	_waveform_2 = new std::vector<int>( _adc_value_3 , &_adc_value_3[_nsamples-1] ) ;
-	_waveform_3 = new std::vector<int>( _adc_value_4 , &_adc_value_4[_nsamples-1] ) ;
-	_waveform_4 = new std::vector<int>( _adc_value_5 , &_adc_value_5[_nsamples-1] ) ;
+	_waveform_1 = new std::vector<int>( _adc_value_1 , &_adc_value_1[_nsamples-1] ) ;
+	_waveform_2 = new std::vector<int>( _adc_value_2 , &_adc_value_2[_nsamples-1] ) ;
+	_waveform_3 = new std::vector<int>( _adc_value_3 , &_adc_value_3[_nsamples-1] ) ;
+	_waveform_4 = new std::vector<int>( _adc_value_4 , &_adc_value_4[_nsamples-1] ) ;
 	
 }
 

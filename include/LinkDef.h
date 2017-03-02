@@ -17,6 +17,7 @@
 #pragma link C++ class module_pedestal+;
 #pragma link C++ class module_charge+;
 #pragma link C++ class module_evt_dump+;
+#pragma link C++ class module_plot_dump+;
 #pragma link C++ class module_evt_display+;
 #pragma link C++ class module_output+;
 

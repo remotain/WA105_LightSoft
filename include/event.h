@@ -110,7 +110,7 @@ public:
 	int              get_nevent      ( ) { return _nevent       ; };
 	int              get_nchannels   ( ) { return _nchannels    ; };
 	int              get_nsamples    ( ) { return _nsamples     ; };
-	int              get_time_sample ( ) { return _time_sample  ; };
+	int              get_time_sample ( ) { return _time_sample  ; }; // s
 
 	std::vector<int> * get_waveform ( int ch );
 
@@ -131,10 +131,10 @@ private:
     int              _time_sample      ;
 
     int              _adc_value_0[1000];
+    int              _adc_value_1[1000];
     int              _adc_value_2[1000];
     int              _adc_value_3[1000];
     int              _adc_value_4[1000];
-    int              _adc_value_5[1000];
 
 	std::vector<int>      *_waveform_0;
 	std::vector<int>      *_waveform_1;
@@ -155,10 +155,10 @@ private:
     TBranch            *_b_nsamples;     //! Input branch
     TBranch            *_b_time_sample;  //! Input branch
     TBranch            *_b_adc_value_0;  //! Input branch
+    TBranch            *_b_adc_value_1;  //! Input branch
     TBranch            *_b_adc_value_2;  //! Input branch
     TBranch            *_b_adc_value_3;  //! Input branch
     TBranch            *_b_adc_value_4;  //! Input branch
-    TBranch            *_b_adc_value_5;  //! Input branch
 	
 ClassDef(event,1);
 	
