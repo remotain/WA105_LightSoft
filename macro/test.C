@@ -1,4 +1,6 @@
 {
+	int run_number = 186;
+
 	//
 	// Load library
 	//
@@ -10,7 +12,7 @@
 	//
 	// Add root file to process
 	//
-	t->Add("$WLS_PATH/examples/output00000186.root");
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
 	//
 	// Create the loop object
 	//
@@ -19,7 +21,7 @@
 	// Create an instance of the module_pedestal 
 	//
 	module_pedestal * my_module_pedestal = new module_pedestal();
-	my_module_pedestal->set_nsample(100); // set the number of sample used to compute the pedestal
+	my_module_pedestal->set_nsample(999); // set the number of sample used to compute the pedestal
 	//
 	// Create an instance of the module_charge
 	//
@@ -31,7 +33,7 @@
 	l->add_module( my_module_charge   );
 
 	l->add_module( new module_plot_dump ); 
-	l->add_module( new module_evt_dump );
+	//l->add_module( new module_evt_dump );
 
 
 	//
@@ -41,7 +43,7 @@
 	//
 	// Save plots to file
 	//	
-	plotter::get_me().save_as("test.pdf");
-	plotter::get_me().save_as("test.root");
+	plotter::get_me().save_as( TString::Format("test%08d.pdf", run_number));
+	plotter::get_me().save_as( TString::Format("test%08d.root", run_number));
 	//
 }

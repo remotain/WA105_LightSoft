@@ -26,11 +26,11 @@ void module_pedestal::begin(){
 	// already set by the user.
 	if( _nsample == -1 ) set_nsample( 100 );
 	
-	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution; ADC Counts", 100, 0, 5000) ); 
+	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution; ADC Counts", 100, 2000, 2400) ); 
 	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution; ADC Counts", 100, 0, 10) ); 
 	
 	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 100, 2000, 2400) ); 
-	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 1500, 2500) ); 
+	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 2000, 2400) ); 
 	
 };
 

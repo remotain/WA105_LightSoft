@@ -34,6 +34,7 @@ void module_evt_display::process( event * evt){
 		
 		_waveform.push_back( new TH1F( TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), evt->get_nsamples(), 0, evt->get_nsamples() * evt->get_time_sample() ));
 		_waveform[ch]->SetStats(false); 
+		_waveform[ch]->GetYaxis()->SetRangeUser(2000, 2400);
 		
 		for( int i = 0 ; i < evt->get_waveform(ch)->size(); i++) {
 			_waveform[ch] -> Fill( i * evt->get_time_sample(), evt->get_waveform(ch)->at(i) );		

@@ -25,9 +25,9 @@
 
 void module_charge::begin(){
 	
-	plotter::get_me().add( new TH1F ("charge_distribution", "Charge distribution; Integrated ADC Counts", 100, -500, 500) ); 
-	plotter::get_me().add( new TH2F ("charge_map", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5, 100, -500, 500) ); 
-	plotter::get_me().add( new TProfile ("charge_profile", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5, -500, 500) ); 
+	plotter::get_me().add( new TH1F ("charge_distribution", "Charge distribution; Integrated ADC Counts", 100, 0, 0) ); 
+	plotter::get_me().add( new TH2F ("charge_map", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5, 100, 0, 0) ); 
+	plotter::get_me().add( new TProfile ("charge_profile", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5 ) ); 
 
 	
 };
@@ -60,10 +60,16 @@ void module_charge::process( event * evt){
 		//// Calculate the charge by integrating the waveform from t_start till the end of the waveform
 		//double charge = evt->get_reco_pedestal(i) * std::distance(it_pulse_start, evt->get_waveform(i)->end()) - std::accumulate(it_pulse_start, evt->get_waveform(i)->end(), 0);					
 		
-		
-		// Calculate pedestal subtracted total charge
-		double charge = evt->get_reco_pedestal(i) * std::distance(evt->get_waveform(i)->begin(), evt->get_waveform(i)->end()) - std::accumulate(evt->get_waveform(i)->begin(), evt->get_waveform(i)->end(), 0);
-		
+		double charge = 0;
+        
+		for(int j = 0; j < evt->get_waveform(i)->size(); j++){
+			
+			charge += evt->get_waveform(i)->at(j) - evt->get_reco_pedestal(i);
+			
+		}
+				
+		//std::cout << charge << std::endl;
+				
 		// Set the values of the charge through the event interface.
 		evt->set_reco_charge(i, charge);
 		
