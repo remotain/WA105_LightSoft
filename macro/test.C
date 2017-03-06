@@ -1,6 +1,6 @@
 {
-	int run_number = 186;
-
+	//int run_number = 186; // 1h dry run
+	int run_number = 192; // 30 min run with PMTs ON
 	//
 	// Load library
 	//
@@ -12,6 +12,7 @@
 	//
 	// Add root file to process
 	//
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
 	//
 	// Create the loop object
@@ -21,7 +22,7 @@
 	// Create an instance of the module_pedestal 
 	//
 	module_pedestal * my_module_pedestal = new module_pedestal();
-	my_module_pedestal->set_nsample(999); // set the number of sample used to compute the pedestal
+	my_module_pedestal->set_nsample(100); // set the number of sample used to compute the pedestal
 	//
 	// Create an instance of the module_charge
 	//

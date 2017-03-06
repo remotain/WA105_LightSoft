@@ -68,7 +68,9 @@ public:
 	void init( TTree * tree );
 	void reset();
 	void assign();
-
+	void set_output_tree( TTree * tree);
+	
+	
 	void set_time_stamp  ( int a_value ) { _time_stamp  = a_value ; };
 	void set_nevent      ( int a_value ) { _nevent      = a_value ; };
 	void set_nchannels   ( int a_value ) { _nchannels   = a_value ; };
@@ -101,6 +103,8 @@ public:
 			return true; 
 		} else return false; 
 	};
+	
+	void set_reco_total_charge (double a_value ) { _reco_total_charge = a_value; };
 
 	TTree * get_chain() {return _chain; };
 
@@ -117,7 +121,8 @@ public:
 	double           get_reco_pedestal     ( int ch) { return (ch < _nch ) ? _reco_pedestals[ch]     : -1 ; };
 	double           get_reco_pedestal_std ( int ch) { return (ch < _nch ) ? _reco_pedestals_std[ch] : -1 ; };
 	double           get_reco_charge       ( int ch) { return (ch < _nch ) ? _reco_charges[ch]       : -1 ; };
-
+	double           get_reco_total_charge (       ) { return _reco_total_charge; };
+	
 private:
 	
 	TTree              *_chain;
@@ -147,6 +152,8 @@ private:
 	std::vector<double>   _reco_pedestals       ;
 	std::vector<double>   _reco_pedestals_std   ;
 	std::vector<double>   _reco_charges         ;
+
+	double _reco_total_charge;
 
     // List of branches
     TBranch            *_b_time_stamp;   //! Input branch

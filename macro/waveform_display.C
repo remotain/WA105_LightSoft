@@ -10,7 +10,7 @@
 	//
 	// Add root file to process
 	//
-	t->Add("$WLS_PATH/examples/output00000186.root");
+	t->Add("$WLS_PATH/examples/output00000192.root");
 	//
 	// Create the loop object
 	//

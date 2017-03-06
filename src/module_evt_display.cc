@@ -55,11 +55,13 @@ void module_evt_display::process( event * evt){
 		gSystem->ProcessEvents();
 			
 		char key;	
-		std::cout<< " (return to next event, q to quit): "; 
+		std::cout<< " (return to next event, s to save, q to quit): "; 
 		std::cin.get(key);
     
 		if( key == 'q' || key == 'Q') 
 			gSystem->Exit(0);
+		if( key == 's' || key == 'S') 
+			c->Print( TString::Format("waveforms_evt_%i.pdf", evt->get_nevent()) );
 		else
 			break;
 				 

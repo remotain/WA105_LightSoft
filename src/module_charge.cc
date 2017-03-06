@@ -25,7 +25,8 @@
 
 void module_charge::begin(){
 	
-	plotter::get_me().add( new TH1F ("charge_distribution", "Charge distribution; Integrated ADC Counts", 100, 0, 0) ); 
+	plotter::get_me().add( new TH1F ("charge_distribution", "Charge distribution; Integrated ADC Counts", 1000, 0, 0) ); 
+	plotter::get_me().add( new TH1F ("total_charge_distribution", "Total charge distribution; Integrated ADC Counts", 1000, 0, 0) ); 
 	plotter::get_me().add( new TH2F ("charge_map", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5, 100, 0, 0) ); 
 	plotter::get_me().add( new TProfile ("charge_profile", "Charge vs channel distribution; Channel; Integrated ADC Counts", 5, 0, 5 ) ); 
 
@@ -33,6 +34,8 @@ void module_charge::begin(){
 };
 
 void module_charge::process( event * evt){
+	
+	double total_charge = 0;
 	
 	for (int i = 0; i < evt->get_nchannels(); i++){
 		
@@ -67,6 +70,8 @@ void module_charge::process( event * evt){
 			charge += evt->get_waveform(i)->at(j) - evt->get_reco_pedestal(i);
 			
 		}
+			
+		total_charge += charge;	
 				
 		//std::cout << charge << std::endl;
 				
@@ -78,6 +83,10 @@ void module_charge::process( event * evt){
 		plotter::get_me().find("charge_profile")->Fill( i, charge ) ;
 					
 	}
+	
+	evt->set_reco_total_charge( total_charge );
+	
+	plotter::get_me().find("total_charge_distribution")->Fill( total_charge ) ;
 	
 };
 
