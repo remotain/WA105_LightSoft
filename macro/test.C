@@ -25,9 +25,6 @@
 	l->add_module( new module_peak_finder );
 	//
 	//
-	//
-	l->set_output_file_name("test_output_tree.root");
-	//
 	// Run the loop
 	//	
     t->Process(l);
