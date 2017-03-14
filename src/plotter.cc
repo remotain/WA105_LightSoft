@@ -75,7 +75,11 @@ void plotter::save_as(const char* filename, Option_t* option)
 		TH1D * h;
 		
 		while( (h = (TH1D *) next()) ) {
+			
+			a_file.cd();
+			
 			h->Write();
+			
 			Info("save_as", "Current histogram added to root file %s", filename);
 			
 		}

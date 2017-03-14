@@ -90,8 +90,7 @@ Bool_t loop::Process(Long64_t entry)
     for(int i = 0; i < _module_list.size(); i++) {
         _module_list[i]->process(_event);
     }
-    
-	
+    	
 	
    return kTRUE;
 }

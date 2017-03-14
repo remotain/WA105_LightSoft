@@ -68,6 +68,7 @@ public:
 	void init( TTree * tree );
 	void reset();
 	void assign();
+	void set_input_tree( TTree * tree);
 	void set_output_tree( TTree * tree);
 	
 	

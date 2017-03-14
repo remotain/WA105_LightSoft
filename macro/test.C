@@ -1,6 +1,6 @@
 {
 	//int run_number = 186; // 1h dry run
-	int run_number = 192; // 30 min run with PMTs ON
+	int run_number = 211; // 30 min run with PMTs ON
 	//
 	// Load library
 	//
@@ -21,22 +21,12 @@
 	//
 	// Create an instance of the module_pedestal 
 	//
-	module_pedestal * my_module_pedestal = new module_pedestal();
-	my_module_pedestal->set_nsample(100); // set the number of sample used to compute the pedestal
+	l->add_module( new module_pedestal );
+	l->add_module( new module_peak_finder );
 	//
-	// Create an instance of the module_charge
 	//
-	module_charge * my_module_charge = new module_charge();
 	//
-	// Add modules to the even processing pipeline
-	//
-	l->add_module( my_module_pedestal );
-	l->add_module( my_module_charge   );
-
-	l->add_module( new module_plot_dump ); 
-	//l->add_module( new module_evt_dump );
-
-
+	l->set_output_file_name("test_output_tree.root");
 	//
 	// Run the loop
 	//	
@@ -44,7 +34,8 @@
 	//
 	// Save plots to file
 	//	
-	plotter::get_me().save_as( TString::Format("test%08d.pdf", run_number));
-	plotter::get_me().save_as( TString::Format("test%08d.root", run_number));
-	//
+	plotter::get_me().save_as( "test.pdf" );
+	plotter::get_me().save_as( "test.root" );
+	
+	
 }

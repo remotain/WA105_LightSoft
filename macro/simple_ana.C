@@ -16,10 +16,6 @@ void simple_ana(int run_number = 0){
 	//
 	loop * l = new loop();
 	//
-	// Set output
-	//
-
-	//
 	// Create an instance of the module_pedestal 
 	//
 	module_pedestal * my_module_pedestal = new module_pedestal();
@@ -33,11 +29,9 @@ void simple_ana(int run_number = 0){
 	//
 	l->add_module( my_module_pedestal );
 	l->add_module( my_module_charge   );
-
+	//
 	l->add_module( new module_plot_dump ); 
 	//l->add_module( new module_evt_dump );
-
-
 	//
 	// Run the loop
 	//	
@@ -48,4 +42,5 @@ void simple_ana(int run_number = 0){
 	plotter::get_me().save_as( TString::Format("simple_ana_run_%08d.pdf", run_number));
 	plotter::get_me().save_as( TString::Format("simple_ana_run_%08d.root", run_number));
 	//
+	
 }

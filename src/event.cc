@@ -21,6 +21,12 @@ void event::init( TTree * tree ) {
 	// Connect the class branches to the tree to automatically retrieve and set 
 	// the data members. This function is called each time the loop needs to 
 	// initialize a new tree or chain.
+
+	set_input_tree( tree);
+
+}
+
+void event::set_input_tree( TTree * tree){
 	
 	_chain = tree;
 	
@@ -36,7 +42,25 @@ void event::init( TTree * tree ) {
 	_chain->SetBranchAddress("adc_value_2" , _adc_value_2  , &_b_adc_value_2 );
 	_chain->SetBranchAddress("adc_value_3" , _adc_value_3  , &_b_adc_value_3 );
 	_chain->SetBranchAddress("adc_value_4" , _adc_value_4  , &_b_adc_value_4 );
+	
+	
+}
 
+void event::set_output_tree( TTree * tree){
+	
+	tree->Branch( "_time_stamp"         , &_time_stamp         , "_time_stamp/I"         );
+	tree->Branch( "_nevent"             , &_nevent             , "_nevent/I"             );
+	tree->Branch( "_nsamples"           , &_nsamples           , "_nsamples/I"           );
+	tree->Branch( "_time_sample"        , &_time_sample        , "_time_sample/I"        );
+	tree->Branch( "_waveform_0"         , &_waveform_0         , "_waveform_0/F"         );
+	tree->Branch( "_waveform_1"         , &_waveform_1         , "_waveform_1/F"         );
+	tree->Branch( "_waveform_2"         , &_waveform_2         , "_waveform_2/F"         );
+	tree->Branch( "_waveform_3"         , &_waveform_3         , "_waveform_3/F"         );
+	tree->Branch( "_waveform_4"         , &_waveform_4         , "_waveform_4/F"         );
+	tree->Branch( "_reco_pedestals"     , &_reco_pedestals     , "_reco_pedestals/F"     );
+	tree->Branch( "_reco_pedestals_std" , &_reco_pedestals_std , "_reco_pedestals_std/F" );
+	tree->Branch( "_reco_charges"       , &_reco_charges       , "_reco_charges/F"       );	
+		
 }
 
 void event::reset(){
@@ -79,7 +103,7 @@ void event::assign(){
 	_waveform_2 = new std::vector<int>( _adc_value_2 , &_adc_value_2[_nsamples-1] ) ;
 	_waveform_3 = new std::vector<int>( _adc_value_3 , &_adc_value_3[_nsamples-1] ) ;
 	_waveform_4 = new std::vector<int>( _adc_value_4 , &_adc_value_4[_nsamples-1] ) ;
-	
+
 }
 
 std::vector<int> * event::get_waveform( int ch ){

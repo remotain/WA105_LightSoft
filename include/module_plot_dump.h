@@ -34,6 +34,19 @@ private:
 	double _t_min, _t_max; 
 	std::vector<double> _t;
 
+	std::vector<int> _avg_w_ch0;
+	std::vector<int> _avg_w_ch1;
+	std::vector<int> _avg_w_ch2;
+	std::vector<int> _avg_w_ch3;
+	std::vector<int> _avg_w_ch4;			
+
+	std::vector<int> _std_w_ch0;
+	std::vector<int> _std_w_ch1;
+	std::vector<int> _std_w_ch2;
+	std::vector<int> _std_w_ch3;
+	std::vector<int> _std_w_ch4;			
+
+
 	ClassDef(module_plot_dump,0);
 	
 };
