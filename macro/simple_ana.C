@@ -46,7 +46,7 @@ void simple_ana(int run_number = 0){
 	// Save plots to file
 	//	
 	plotter::get_me().save_as( TString::Format("simple_ana_run_%08d.pdf", run_number));
-	plotter::get_me().save_as( TString::Format("simple_ana_run_%08d.root", run_number));
+	plotter::get_me().save_as( TString::Format("$WLS_PLOT/simple_ana_run_%08d.root", run_number));
 	//
 	
 }
