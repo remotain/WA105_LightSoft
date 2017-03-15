@@ -41,6 +41,13 @@ void loop::Begin(TTree * /*tree*/)
 
    Info("Begin", "Begin process" );
 
+	if( _k_output ) {
+		
+		_output_file = new TFile("test_output.root","RECREATE");
+		_output_tree = new TTree("output_tree", "output_tree");
+		_event->set_output_tree( _output_tree );
+
+	}
 }
 
 void loop::SlaveBegin(TTree * /*tree*/)
@@ -91,6 +98,10 @@ Bool_t loop::Process(Long64_t entry)
         _module_list[i]->process(_event);
     }
     	
+	if( _k_output ) {
+		_output_file->cd();
+		_output_tree->Fill();	
+	}
 	
    return kTRUE;
 }
@@ -115,6 +126,11 @@ void loop::Terminate()
    // The Terminate() function is the last function to be called during
    // a query. It always runs on the client, it can be used to present
    // the results graphically or save the results to file.
+
+	if( _k_output ) {
+		_output_tree->Write();
+		_output_file->Close();
+	}
 
    Info("Terminate", "Terminate process" );
 

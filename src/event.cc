@@ -52,14 +52,15 @@ void event::set_output_tree( TTree * tree){
 	tree->Branch( "_nevent"             , &_nevent             , "_nevent/I"             );
 	tree->Branch( "_nsamples"           , &_nsamples           , "_nsamples/I"           );
 	tree->Branch( "_time_sample"        , &_time_sample        , "_time_sample/I"        );
-	tree->Branch( "_waveform_0"         , &_waveform_0         , "_waveform_0/F"         );
-	tree->Branch( "_waveform_1"         , &_waveform_1         , "_waveform_1/F"         );
-	tree->Branch( "_waveform_2"         , &_waveform_2         , "_waveform_2/F"         );
-	tree->Branch( "_waveform_3"         , &_waveform_3         , "_waveform_3/F"         );
-	tree->Branch( "_waveform_4"         , &_waveform_4         , "_waveform_4/F"         );
-	tree->Branch( "_reco_pedestals"     , &_reco_pedestals     , "_reco_pedestals/F"     );
-	tree->Branch( "_reco_pedestals_std" , &_reco_pedestals_std , "_reco_pedestals_std/F" );
-	tree->Branch( "_reco_charges"       , &_reco_charges       , "_reco_charges/F"       );	
+
+	tree->Branch( "_waveform_0"         , "std::vector<int>"    , &_waveform_0          );
+	tree->Branch( "_waveform_1"         , "std::vector<int>"    , &_waveform_1          );
+	tree->Branch( "_waveform_2"         , "std::vector<int>"    , &_waveform_2          );
+	tree->Branch( "_waveform_3"         , "std::vector<int>"    , &_waveform_3          );
+	tree->Branch( "_waveform_4"         , "std::vector<int>"    , &_waveform_4          );
+	tree->Branch( "_reco_pedestals"     , "std::vector<double>" , &_reco_pedestals      );
+	tree->Branch( "_reco_pedestals_std" , "std::vector<double>" , &_reco_pedestals_std  );
+	tree->Branch( "_reco_charges"       , "std::vector<double>" , &_reco_charges        );	
 		
 }
 

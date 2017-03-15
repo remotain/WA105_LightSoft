@@ -43,32 +43,42 @@ using namespace std;
 #include "module.h"
 
 class loop : public TSelector {
-public :
-   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
 
-   event          *_event;  //!pointer to the event
-   
-   vector<module*> _module_list; //!list of module to be executed over each event
-   
-   loop(TTree * /*tree*/ =0) : fChain(0), _event(0) { _event = new event(); }
-   
-   virtual ~loop() { }
-   virtual Int_t   Version() const { return 2; }
-   virtual void    Begin(TTree *tree);
-   virtual void    SlaveBegin(TTree *tree);
-   virtual void    Init(TTree *tree);
-   virtual Bool_t  Notify();
-   virtual Bool_t  Process(Long64_t entry);
-   //virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0) { return fChain ? fChain->GetTree()->GetEntry(entry, getall) : 0; }
-   virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0);
-   virtual void    SetOption(const char *option) { fOption = option; }
-   virtual void    SetObject(TObject *obj) { fObject = obj; }
-   virtual void    SetInputList(TList *input) { fInput = input; }
-   virtual TList  *GetOutputList() const { return fOutput; }
-   virtual void    SlaveTerminate();
-   virtual void    Terminate();
+public:
+	
+	TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+	
+	loop(TTree * /*tree*/ =0) : fChain(0), _event(0) { _event = new event(); }
+	
+	virtual ~loop() { }
+	virtual Int_t   Version() const { return 2; }
+	virtual void    Begin(TTree *tree);
+	virtual void    SlaveBegin(TTree *tree);
+	virtual void    Init(TTree *tree);
+	virtual Bool_t  Notify();
+	virtual Bool_t  Process(Long64_t entry);
+	//virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0) { return fChain ? fChain->GetTree()->GetEntry(entry, getall) : 0; }
+	virtual Int_t   GetEntry(Long64_t entry, Int_t getall = 0);
+	virtual void    SetOption(const char *option) { fOption = option; }
+	virtual void    SetObject(TObject *obj) { fObject = obj; }
+	virtual void    SetInputList(TList *input) { fInput = input; }
+	virtual TList  *GetOutputList() const { return fOutput; }
+	virtual void    SlaveTerminate();
+	virtual void    Terminate();
+	
+	void add_module(module * a_module) { _module_list.push_back( a_module); };
+	
+	void write_output_tree( bool a_value){ _k_output = a_value; };
 
-   void add_module(module * a_module) { _module_list.push_back( a_module); };
+private:
+	
+	bool   _k_output;
+	TFile  *_output_file;
+	TTree  *_output_tree;
+
+	event  *_event;  //!pointer to the event
+	
+	vector<module*> _module_list; //!list of module to be executed over each event
 
    ClassDef(loop,0);
 };

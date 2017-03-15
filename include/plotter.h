@@ -74,7 +74,16 @@ public:
 
 private:
 	// Private Constructor
-    plotter(){ _collection = new THashList(); _collection->SetOwner(true); };
+    plotter(){ 
+		_collection = new THashList(); 
+		_collection->SetOwner(true); 
+		
+		// To change the ROOT default that automatically adds the histogram to the 
+		// current directory, you can call the static function:
+		TH1::AddDirectory(kFALSE);
+		
+	};
+	
     ~plotter() { delete _collection; };
 	
 	// Stop the compiler generating methods of copy the object
