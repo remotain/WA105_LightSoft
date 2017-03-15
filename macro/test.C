@@ -24,6 +24,9 @@
 	l->add_module( new module_pedestal );
 	l->add_module( new module_peak_finder );
 	//
+	// Set output
+	//
+	l->write_output_tree(true);
 	//
 	// Run the loop
 	//	

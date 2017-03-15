@@ -19,7 +19,10 @@ void simple_ana(int run_number = 0){
 	// Create an instance of the module_pedestal 
 	//
 	module_pedestal * my_module_pedestal = new module_pedestal();
-	my_module_pedestal->set_nsample(100); // set the number of sample used to compute the pedestal
+	//
+	// set the number of sample used to compute the pedestal
+	//
+	my_module_pedestal->set_nsample(100); 
 	//
 	// Create an instance of the module_charge
 	//
@@ -29,9 +32,12 @@ void simple_ana(int run_number = 0){
 	//
 	l->add_module( my_module_pedestal );
 	l->add_module( my_module_charge   );
-	//
 	l->add_module( new module_plot_dump ); 
 	//l->add_module( new module_evt_dump );
+	//
+	// Write processed event on an output tree
+	//
+	l->write_output_tree(true);
 	//
 	// Run the loop
 	//	
