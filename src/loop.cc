@@ -41,10 +41,13 @@ void loop::Begin(TTree * /*tree*/)
 
    Info("Begin", "Begin process" );
 
-	if( _k_output ) {
+	if( _k_save_output ) {
 		
-		_output_file = new TFile("test_output.root","RECREATE");
-		_output_tree = new TTree("output_tree", "output_tree");
+		_output_file = new TFile(_output_file_name,"RECREATE");
+		
+		if( ! _output_file->IsOpen()) Fatal("Begin", "Output file not open: %s", _output_file_name);
+		
+		_output_tree = new TTree("reco_tree", "reco_tree");
 		_event->set_output_tree( _output_tree );
 
 	}
@@ -98,7 +101,7 @@ Bool_t loop::Process(Long64_t entry)
         _module_list[i]->process(_event);
     }
     	
-	if( _k_output ) {
+	if( _k_save_output ) {
 		_output_file->cd();
 		_output_tree->Fill();	
 	}
@@ -127,7 +130,7 @@ void loop::Terminate()
    // a query. It always runs on the client, it can be used to present
    // the results graphically or save the results to file.
 
-	if( _k_output ) {
+	if( _k_save_output ) {
 		_output_tree->Write();
 		_output_file->Close();
 	}

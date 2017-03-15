@@ -37,7 +37,7 @@ void simple_ana(int run_number = 0){
 	//
 	// Write processed event on an output tree
 	//
-	l->write_output_tree(true);
+	l->save_output_tree( TString::Format("$WLS_DATA/recoed%08d.root", run_number) );
 	//
 	// Run the loop
 	//	

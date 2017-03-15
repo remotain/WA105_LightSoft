@@ -48,7 +48,10 @@ public:
 	
 	TTree          *fChain;   //!pointer to the analyzed TTree or TChain
 	
-	loop(TTree * /*tree*/ =0) : fChain(0), _event(0) { _event = new event(); }
+	loop(TTree * /*tree*/ =0) : fChain(0), _event(0) { 
+		_event = new event(); 
+		_k_save_output = false;
+	}
 	
 	virtual ~loop() { }
 	virtual Int_t   Version() const { return 2; }
@@ -68,11 +71,17 @@ public:
 	
 	void add_module(module * a_module) { _module_list.push_back( a_module); };
 	
-	void write_output_tree( bool a_value){ _k_output = a_value; };
+	void save_output_tree( const char * filename ){ 
+		_k_save_output = true; 
+		_output_file_name = filename;
+		Info("save_output_tree", "Save output tree to %s", _output_file_name);
+
+	};
 
 private:
 	
-	bool   _k_output;
+	bool   _k_save_output;
+	const char   *_output_file_name;
 	TFile  *_output_file;
 	TTree  *_output_tree;
 

@@ -26,7 +26,7 @@
 	//
 	// Set output
 	//
-	l->write_output_tree(true);
+	l->save_output_tree( TString::Format("$WLS_DATA/recoed%08d.root", run_number) );
 	//
 	// Run the loop
 	//	
