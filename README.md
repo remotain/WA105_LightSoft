@@ -30,5 +30,5 @@ source setup.sh
 ```
 Run the macros available in the ```macro```directory:
 ```bash
-root macro/test.C
+root macro/simple_ana.C"(run_number)"
 ```
