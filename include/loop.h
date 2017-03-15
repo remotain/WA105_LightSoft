@@ -74,7 +74,7 @@ public:
 	void save_output_tree( const char * filename ){ 
 		_k_save_output = true; 
 		_output_file_name = filename;
-		Info("save_output_tree", "Save output tree to %s", _output_file_name);
+		Info("save_output_tree", "Save output tree enabled: %s", _output_file_name);
 
 	};
 

@@ -80,7 +80,7 @@ void plotter::save_as(const char* filename, Option_t* option)
 			
 			h->Write();
 			
-			Info("save_as", "Current histogram added to root file %s", filename);
+			//Info("save_as", "Current histogram added to root file %s", filename);
 			
 		}
 	

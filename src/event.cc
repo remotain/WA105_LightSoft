@@ -32,17 +32,41 @@ void event::set_input_tree( TTree * tree){
 	
 	_chain->SetMakeClass(1);
 	
-	_chain->SetBranchAddress("TimeStamp"   , &_time_stamp  , &_b_time_stamp  );
-	_chain->SetBranchAddress("event"       , &_nevent      , &_b_event       );
-	_chain->SetBranchAddress("nchannels"   , &_nchannels   , &_b_nchannels   );
-	_chain->SetBranchAddress("nsamples"    , &_nsamples    , &_b_nsamples    );
-	_chain->SetBranchAddress("TimeSample"  , &_time_sample , &_b_time_sample );
-	_chain->SetBranchAddress("adc_value_0" , _adc_value_0  , &_b_adc_value_0 );
-	_chain->SetBranchAddress("adc_value_1" , _adc_value_1  , &_b_adc_value_1 );
-	_chain->SetBranchAddress("adc_value_2" , _adc_value_2  , &_b_adc_value_2 );
-	_chain->SetBranchAddress("adc_value_3" , _adc_value_3  , &_b_adc_value_3 );
-	_chain->SetBranchAddress("adc_value_4" , _adc_value_4  , &_b_adc_value_4 );
+	if( strcmp(tree->GetName(), "midas_data") == 0 ){
 	
+		_chain->SetBranchAddress("TimeStamp"   , &_time_stamp  , &_b_time_stamp  );
+		_chain->SetBranchAddress("event"       , &_nevent      , &_b_event       );
+		_chain->SetBranchAddress("nchannels"   , &_nchannels   , &_b_nchannels   );
+		_chain->SetBranchAddress("nsamples"    , &_nsamples    , &_b_nsamples    );
+		_chain->SetBranchAddress("TimeSample"  , &_time_sample , &_b_time_sample );
+		_chain->SetBranchAddress("adc_value_0" , _adc_value_0  , &_b_adc_value_0 );
+		_chain->SetBranchAddress("adc_value_1" , _adc_value_1  , &_b_adc_value_1 );
+		_chain->SetBranchAddress("adc_value_2" , _adc_value_2  , &_b_adc_value_2 );
+		_chain->SetBranchAddress("adc_value_3" , _adc_value_3  , &_b_adc_value_3 );
+		_chain->SetBranchAddress("adc_value_4" , _adc_value_4  , &_b_adc_value_4 );
+
+	} else if ( strcmp( tree->GetName(), "reco_data") == 0 ){
+
+		Warning("set_input_tree", "Input the reco_data tree has not been tested yet!");
+		
+		_chain->SetBranchAddress("_time_stamp"          , &_time_stamp         , &_b_time_stamp          );
+		_chain->SetBranchAddress("nevent"               , &_nevent             , &_b_event               );
+		_chain->SetBranchAddress("_nsamples"            , &_nsamples           , &_b_nsamples            );
+		_chain->SetBranchAddress("_time_sample"         , &_time_sample        , &_b_time_sample         );
+		_chain->SetBranchAddress( "_waveform_0"         , _waveform_0          , &_b_waveform_0          );
+		_chain->SetBranchAddress( "_waveform_1"         , _waveform_1          , &_b_waveform_1          );
+		_chain->SetBranchAddress( "_waveform_2"         , _waveform_2          , &_b_waveform_2          );
+		_chain->SetBranchAddress( "_waveform_3"         , _waveform_3          , &_b_waveform_3          );
+		_chain->SetBranchAddress( "_waveform_4"         , _waveform_4          , &_b_waveform_4          );
+		_chain->SetBranchAddress( "_reco_pedestals"     , &_reco_pedestals     , &_b_reco_pedestals      );
+		_chain->SetBranchAddress( "_reco_pedestals_std" , &_reco_pedestals_std , &_b_reco_pedestals_std  );
+		_chain->SetBranchAddress( "_reco_charges"       , &_reco_charges       , &_b_reco_charges        );	
+		
+	} else {
+		
+		Fatal("set_input_tree", "Input tree not recognized: %s", tree->GetName() );
+		
+	}
 	
 }
 

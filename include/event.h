@@ -42,6 +42,7 @@
 #include <TObject.h>
 #include <TChain.h>
 
+#include <string.h>
 #include <vector>
 
 class event : public TObject {
@@ -157,16 +158,28 @@ private:
 	double _reco_total_charge;
 
     // List of branches
-    TBranch            *_b_time_stamp;   //! Input branch
-    TBranch            *_b_event;        //! Input branch
-    TBranch            *_b_nchannels;    //! Input branch
-    TBranch            *_b_nsamples;     //! Input branch
-    TBranch            *_b_time_sample;  //! Input branch
-    TBranch            *_b_adc_value_0;  //! Input branch
-    TBranch            *_b_adc_value_1;  //! Input branch
-    TBranch            *_b_adc_value_2;  //! Input branch
-    TBranch            *_b_adc_value_3;  //! Input branch
-    TBranch            *_b_adc_value_4;  //! Input branch
+    TBranch *_b_time_stamp;   //! Input branch
+    TBranch *_b_event;        //! Input branch
+    TBranch *_b_nchannels;    //! Input branch
+    TBranch *_b_nsamples;     //! Input branch
+    TBranch *_b_time_sample;  //! Input branch
+    TBranch *_b_adc_value_0;  //! Input branch
+    TBranch *_b_adc_value_1;  //! Input branch
+    TBranch *_b_adc_value_2;  //! Input branch
+    TBranch *_b_adc_value_3;  //! Input branch
+    TBranch *_b_adc_value_4;  //! Input branch
+	TBranch *_b_waveform_0;          
+	TBranch *_b_waveform_1;          
+	TBranch *_b_waveform_2;          
+	TBranch *_b_waveform_3;          
+	TBranch *_b_waveform_4;          
+	TBranch *_b_reco_pedestals;      
+	TBranch *_b_reco_pedestals_std;  
+	TBranch *_b_reco_charges;        
+	
+	
+	
+	
 	
 ClassDef(event,1);
 	

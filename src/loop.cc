@@ -47,7 +47,7 @@ void loop::Begin(TTree * /*tree*/)
 		
 		if( ! _output_file->IsOpen()) Fatal("Begin", "Output file not open: %s", _output_file_name);
 		
-		_output_tree = new TTree("reco_tree", "reco_tree");
+		_output_tree = new TTree("reco_data", "reco_data");
 		_event->set_output_tree( _output_tree );
 
 	}
@@ -88,8 +88,10 @@ Bool_t loop::Process(Long64_t entry)
    //
    // The return value is currently not used.
 
-	if (entry % 100 == 0){
-		Info("Process", "Entry %lli" , entry );
+    int frac = (int) round(100 * entry / fChain->GetEntriesFast());
+
+	if ( entry % (int)round(1+(0.1*fChain->GetEntriesFast())) == 0 ){
+		Info("Process", "%2i %% Entry (%lli/%lli)" , frac, entry, fChain->GetEntriesFast());
 	}
 	
 	
@@ -131,6 +133,7 @@ void loop::Terminate()
    // the results graphically or save the results to file.
 
 	if( _k_save_output ) {
+		Info("Terminate", "Save output tree to %s", _output_file_name);
 		_output_tree->Write();
 		_output_file->Close();
 	}
