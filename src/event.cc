@@ -61,6 +61,7 @@ void event::set_input_tree( TTree * tree){
 		_chain->SetBranchAddress( "_reco_pedestals"     , &_reco_pedestals     , &_b_reco_pedestals      );
 		_chain->SetBranchAddress( "_reco_pedestals_std" , &_reco_pedestals_std , &_b_reco_pedestals_std  );
 		_chain->SetBranchAddress( "_reco_charges"       , &_reco_charges       , &_b_reco_charges        );	
+		_chain->SetBranchAddress( "_reco_n_peaks"       , &_reco_n_peaks       , &_b_reco_n_peaks        );	
 		
 	} else {
 		
@@ -85,6 +86,7 @@ void event::set_output_tree( TTree * tree){
 	tree->Branch( "_reco_pedestals"     , "std::vector<double>" , &_reco_pedestals      );
 	tree->Branch( "_reco_pedestals_std" , "std::vector<double>" , &_reco_pedestals_std  );
 	tree->Branch( "_reco_charges"       , "std::vector<double>" , &_reco_charges        );	
+	tree->Branch( "_reco_n_peaks"       , "std::vector<double>" , &_reco_n_peaks        );	
 		
 }
 
@@ -101,6 +103,7 @@ void event::reset(){
 	_reco_pedestals.assign(_nch,-1.); 
 	_reco_pedestals_std.assign(_nch,-1.); 
     _reco_charges.assign(_nch, -1.);   
+    _reco_n_peaks.assign(_nch, -1.);   
 	
 }
 

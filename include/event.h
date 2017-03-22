@@ -105,6 +105,15 @@ public:
 			return true; 
 		} else return false; 
 	};
+
+	bool set_reco_n_peaks   ( int ch , double a_value ) {
+		// Set reconstructed charge value for each channel 
+		if (ch < _nchannels ) { 
+			_reco_n_peaks[ch] = a_value; 
+			return true; 
+		} else return false; 
+	};
+
 	
 	void set_reco_total_charge (double a_value ) { _reco_total_charge = a_value; };
 
@@ -123,6 +132,7 @@ public:
 	double           get_reco_pedestal     ( int ch) { return (ch < _nch ) ? _reco_pedestals[ch]     : -1 ; };
 	double           get_reco_pedestal_std ( int ch) { return (ch < _nch ) ? _reco_pedestals_std[ch] : -1 ; };
 	double           get_reco_charge       ( int ch) { return (ch < _nch ) ? _reco_charges[ch]       : -1 ; };
+	double           get_reco_n_peaks      ( int ch) { return (ch < _nch ) ? _reco_n_peaks[ch]       : -1 ; };
 	double           get_reco_total_charge (       ) { return _reco_total_charge; };
 	
 private:
@@ -154,6 +164,7 @@ private:
 	std::vector<double>   _reco_pedestals       ;
 	std::vector<double>   _reco_pedestals_std   ;
 	std::vector<double>   _reco_charges         ;
+	std::vector<double>   _reco_n_peaks         ;
 
 	double _reco_total_charge;
 
@@ -176,7 +187,7 @@ private:
 	TBranch *_b_reco_pedestals;      
 	TBranch *_b_reco_pedestals_std;  
 	TBranch *_b_reco_charges;        
-	
+	TBranch *_b_reco_n_peaks;        
 	
 	
 	
