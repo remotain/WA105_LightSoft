@@ -22,6 +22,8 @@ include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 set(LINK_DIRECTORIES ${ROOT_LIBRARY_DIR})
 link_directories( ${LINK_DIRECTORIES})
 
+find_package(ROOT REQUIRED COMPONENTS RIO Net Hist Graf Graf3d Gpad Tree Rint Postscript Matrix Physics MathCore Thread Spectrum)
+
 # Retry project header and source files
 file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
 file(GLOB HPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
