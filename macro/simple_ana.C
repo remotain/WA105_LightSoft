@@ -27,6 +27,11 @@ void simple_ana(int run_number = 0){
 	// Create an instance of the module_charge
 	//
 	module_charge * my_module_charge = new module_charge();
+	//	
+	// Set integration time window
+	//
+	my_module_charge->set_integration_window_length(30);
+	my_module_charge->set_integration_window_start(990-30);		
 	//
 	// Add modules to the even processing pipeline
 	//
@@ -41,7 +46,8 @@ void simple_ana(int run_number = 0){
 	//
 	// Run the loop
 	//	
-    t->Process(l);
+	t->Process(l);
+    //t->Process(l,"", 800, 800);
 	//
 	// Save plots to file
 	//	
