@@ -84,7 +84,7 @@ private:
 	const char   *_output_file_name;
 	TFile  *_output_file;
 	TTree  *_output_tree;
-
+	
 	event  *_event;  //!pointer to the event
 	
 	vector<module*> _module_list; //!list of module to be executed over each event
