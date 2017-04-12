@@ -21,5 +21,6 @@
 #pragma link C++ class module_plot_dump+;
 #pragma link C++ class module_evt_display+;
 #pragma link C++ class module_output+;
+#pragma link C++ class module_time_series+;
 
 #endif

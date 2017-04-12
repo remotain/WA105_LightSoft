@@ -30,9 +30,9 @@ void module_evt_display::begin(){
 
 void module_evt_display::process( event * evt){
 	
-	for( int ch = 0; ch < evt->get_n_channels_active(); ch++ ){
+	for( int ch = 0; ch < evt->get_n_channels_active(); ch++ ){	
 		
-		_waveform.push_back( new TH1F( TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), evt->get_nsamples(), 0, evt->get_nsamples() * evt->get_time_sample() ));
+		_waveform.push_back( new TH1F( TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), evt->get_waveform(ch)->size(), 0, evt->get_waveform(ch)->size() * evt->get_time_sample() ));
 		_waveform[ch]->SetStats(false); 
 		_waveform[ch]->GetYaxis()->SetRangeUser(0, 4500);
 		
@@ -49,6 +49,7 @@ void module_evt_display::process( event * evt){
 	
 	
 	}
+		
 		
     		    
 	TTimer * timer = new TTimer("gSystem->ProcessEvents();", 50, kFALSE);

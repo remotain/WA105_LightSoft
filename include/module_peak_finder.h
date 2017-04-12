@@ -32,8 +32,8 @@ public:
 	virtual void terminate();
 	
 private:
-
-	//TSpectrum _spec;
+		
+	int _treshold;	
 		
 	ClassDef(module_peak_finder,0);
 	

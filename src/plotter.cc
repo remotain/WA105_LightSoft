@@ -35,6 +35,17 @@ TH2 * plotter::find2d( const char* name )
 	return obj;
 };
 
+TGraph * plotter::findGraph( const char* name ) 
+{ 
+	// Find object by name in the _collection THashList.
+
+	TGraph * obj = (TGraph*) _g_collection->FindObject(name); 
+	
+	if ( !obj ) Error("find", "Graph '%s' not found in collection", name);
+		
+	return obj;
+};
+
 	
 void plotter::save_as(const char* filename, Option_t* option)
 {
@@ -55,13 +66,32 @@ void plotter::save_as(const char* filename, Option_t* option)
 			
 			if( h == _collection->First()) {
 				c.Print( TString::Format("%s(", filename) );
-			} else if( h == _collection->Last()) {
+			} else if( h == _collection->Last() && _g_collection->GetEntries() == 0 ) {
 				c.Print( TString::Format("%s)", filename) );
 			} else {
 				c.Print(filename);
 			}
 		
 		}
+
+		TIter g_next(_g_collection);
+		TGraph * g;
+		
+		while( (g = (TGraph *) g_next()) ) {
+			
+			TCanvas c (g->GetName(), g->GetTitle());
+			g->Draw("AP");
+			
+			if( g == _g_collection->First() && _collection->GetEntries() == 0 ) {
+				c.Print( TString::Format("%s(", filename) );
+			} else if( g == _g_collection->Last()) {
+				c.Print( TString::Format("%s)", filename) );
+			} else {
+				c.Print(filename);
+			}
+		
+		}
+
 		
 	}
 	
@@ -83,6 +113,20 @@ void plotter::save_as(const char* filename, Option_t* option)
 			//Info("save_as", "Current histogram added to root file %s", filename);
 			
 		}
+	
+		TIter g_next(_g_collection);
+		TH1D * g;
+		
+		while( (g = (TH1D *) g_next()) ) {
+			
+			a_file.cd();
+			
+			g->Write();
+			
+			//Info("save_as", "Current histogram added to root file %s", filename);
+			
+		}
+	
 	
 		a_file.Close();
 		

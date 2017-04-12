@@ -29,11 +29,11 @@ void module_pedestal::begin(){
 	plotter::get_me().add( new TH1F ("pedestal_avg_distributions", "Pedestal average distribution; ADC Counts", 100, 0, 0) ); 
 	plotter::get_me().add( new TH1F ("pedestal_std_distributions", "Pedestal standard deviation distribution; ADC Counts", 100, 0, 0) ); 
 	
-	plotter::get_me().add( new TH1F ("pedestal_ch0", "Pedestal average distribution ch 0; ADC Counts", 300, 3990, 4020) ); 
-	plotter::get_me().add( new TH1F ("pedestal_ch1", "Pedestal average distribution ch 1; ADC Counts", 300, 3990, 4020) ); 
-	plotter::get_me().add( new TH1F ("pedestal_ch2", "Pedestal average distribution ch 2; ADC Counts", 300, 3990, 4020) ); 
-	plotter::get_me().add( new TH1F ("pedestal_ch3", "Pedestal average distribution ch 3; ADC Counts", 300, 3990, 4020) ); 
-	plotter::get_me().add( new TH1F ("pedestal_ch4", "Pedestal average distribution ch 4; ADC Counts", 300, 3990, 4020) ); 			
+	plotter::get_me().add( new TH1F ("pedestal_ch0", "Pedestal average distribution ch 0; ADC Counts", 30, 3990, 4020) ); 
+	plotter::get_me().add( new TH1F ("pedestal_ch1", "Pedestal average distribution ch 1; ADC Counts", 30, 3990, 4020) ); 
+	plotter::get_me().add( new TH1F ("pedestal_ch2", "Pedestal average distribution ch 2; ADC Counts", 30, 3990, 4020) ); 
+	plotter::get_me().add( new TH1F ("pedestal_ch3", "Pedestal average distribution ch 3; ADC Counts", 30, 3990, 4020) ); 
+	plotter::get_me().add( new TH1F ("pedestal_ch4", "Pedestal average distribution ch 4; ADC Counts", 30, 3990, 4020) ); 			
 	
 	plotter::get_me().add( new TH2F ("pedestal_map", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, 2000, 3900, 4100) ); 
 	plotter::get_me().add( new TProfile ("pedestal_profile", "Pedestal vs channel distribution; Channel; ADC Counts", 5, 0, 5, "S") ); 

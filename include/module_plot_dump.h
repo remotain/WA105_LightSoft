@@ -12,6 +12,7 @@
 #define module_plot_dump_h
 
 #include <TObject.h>
+#include <TMath.h>
 
 #include "module.h"
 #include "event.h"
@@ -30,7 +31,7 @@ public:
 
 private:
 
-	int _n_evt;
+	int _n_evt, _n_evt_exc;
 	double _t_min, _t_max; 
 	std::vector<double> _t;
 

@@ -42,6 +42,7 @@
 #include<TH1.h>
 #include<TH2.h>
 #include <TProfile.h>
+#include <TGraph.h>
 #include<TFile.h>
 #include<TCanvas.h>
 #include<TKey.h>
@@ -68,7 +69,11 @@ public:
 	TH1 * find( const char* name );
 	TH2 * find2d( const char* name );
 	
+	void add( TGraph * g ) { _g_collection->Add(g); };
+	TGraph * findGraph( const char* name );
+	
 	THashList * get_collection(){ return _collection; };
+	THashList * get_g_collection(){ return _g_collection; };
 	
 	void save_as(const char* filename = "", Option_t* option = "");
 
@@ -77,7 +82,10 @@ private:
     plotter(){ 
 		_collection = new THashList(); 
 		_collection->SetOwner(true); 
-		
+
+		_g_collection = new THashList(); 
+		_g_collection->SetOwner(true); 
+
 		// To change the ROOT default that automatically adds the histogram to the 
 		// current directory, you can call the static function:
 		TH1::AddDirectory(kFALSE);
@@ -91,6 +99,7 @@ private:
     plotter& operator=(plotter const& copy); // Not Implemented
 
 	THashList * _collection;
+	THashList * _g_collection;
 	
 ClassDef(plotter,0);
 		
