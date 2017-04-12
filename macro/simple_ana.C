@@ -30,15 +30,20 @@ void simple_ana(int run_number = 0){
 	//	
 	// Set integration time window
 	//
-	my_module_charge->set_integration_window_length(30);
-	my_module_charge->set_integration_window_start(990-30);		
+	//my_module_charge->set_integration_window_length(30);
+	//my_module_charge->set_integration_window_start(990-30);		
 	//
 	// Add modules to the even processing pipeline
 	//
 	l->add_module( my_module_pedestal );
-	l->add_module( my_module_charge   );
+	//l->add_module( my_module_charge   );
+	l->add_module( new module_peak_finder );
 	l->add_module( new module_plot_dump ); 
 	//l->add_module( new module_evt_dump );
+	//
+	//module_time_series * my_time_series = new module_time_series();
+	//my_time_series->set_pool_hour();
+	//l->add_module( my_time_series );
 	//
 	// Write processed event on an output tree
 	//
@@ -47,7 +52,7 @@ void simple_ana(int run_number = 0){
 	// Run the loop
 	//	
 	t->Process(l);
-    //t->Process(l,"", 800, 800);
+    //t->Process(l,"", 76292, 50862); Usage: nMAX, FirsEvent
 	//
 	// Save plots to file
 	//	
