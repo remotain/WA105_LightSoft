@@ -18,6 +18,13 @@ void waveform_display(int run_number = 0){
 	//
 	// Add modules to the even processing pipeline
 	//
+	module_cut * my_cut = new module_cut();
+
+	my_cut->set_cut_pmt_saturate ();
+	my_cut->set_cut_crt_match    ();
+	my_cut->set_cut_crt_reco     ();
+		
+	l->add_module( my_cut );
 	l->add_module( new module_evt_display );
 	//
 	// Run the loop
