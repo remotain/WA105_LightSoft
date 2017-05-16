@@ -4,6 +4,10 @@ void simple_ana(int run_number = 0){
 	//
 	gSystem->Load("$WLS_PATH/build/lib/libLightSoft");
 	//
+	// Info level
+	//
+	gErrorIgnoreLevel = kInfo; // kWarning;
+	//
 	// Create the TChain to process
 	//
 	TChain * t = new TChain("midas_data");
@@ -30,14 +34,29 @@ void simple_ana(int run_number = 0){
 	//	
 	// Set integration time window
 	//
-	//my_module_charge->set_integration_window_length(30);
+	my_module_charge->set_integration_window_length(999);
 	//my_module_charge->set_integration_window_start(990-30);		
 	//
-	// Add modules to the even processing pipeline
+	// Basic cut (select reconstructed crossing muon)
 	//
+	module_cut * my_cut = new module_cut();
+
+	my_cut->set_cut_pmt_saturate ();
+	my_cut->set_cut_pmt_peak_t   (400, 700);
+	my_cut->set_cut_crt_match    ();
+	my_cut->set_cut_crt_reco     ();
+	//my_cut->set_cut_crt_delta_t     (100., 130. );
+	//my_cut->set_cut_crt_track_angle (0., 0.1. );
+	//my_cut->set_cut_crt_track_z     (0., 1000. );
+	//
+	// Add modules to the even processing pipeline
+	//		
 	l->add_module( my_module_pedestal );
-	//l->add_module( my_module_charge   );
+	l->add_module( my_module_charge   );
 	l->add_module( new module_peak_finder );
+
+	l->add_module( my_cut );
+
 	l->add_module( new module_plot_dump ); 
 	//l->add_module( new module_evt_dump );
 	//
@@ -47,12 +66,12 @@ void simple_ana(int run_number = 0){
 	//
 	// Write processed event on an output tree
 	//
-	l->save_output_tree( TString::Format("$WLS_DATA/recoed%08d.root", run_number) );
+	l->save_output_tree( TString::Format("$WLS_DATA/recoed%08d_cut.root", run_number) );
 	//
 	// Run the loop
 	//	
 	t->Process(l);
-    //t->Process(l,"", 76292, 50862); Usage: nMAX, FirsEvent
+    //t->Process(l,"", 6500, 13001); // Usage: nMAX, FirsEvent
 	//
 	// Save plots to file
 	//	
