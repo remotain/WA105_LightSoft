@@ -24,13 +24,15 @@ void module_output::begin(){
 	
 };
 
-void module_output::process( event * evt){
+bool module_output::process( event * evt){
 	
 	//_evt_ptr = evt;
 	
 	//_tree->Branch("event", &evt, 32000, 1 );
 	
 	_tree->Fill();
+	
+	return true;
 	
 };
 

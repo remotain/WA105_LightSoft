@@ -39,7 +39,7 @@ public:
     virtual ~module() { };
 
 	virtual void begin(){};
-	virtual void process( event * evt) {};
+	virtual bool process( event * evt) { return true; };
 	virtual void terminate(){};
 
 private:

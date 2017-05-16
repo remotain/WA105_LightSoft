@@ -28,7 +28,7 @@ public:
     virtual ~module_peak_finder() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 	
 private:

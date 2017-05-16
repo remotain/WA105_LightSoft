@@ -18,6 +18,7 @@
 
 #include <TCanvas.h>
 #include <TH2.h>
+#include <TProfile.h>
 
 class module_evt_display : public module {
 
@@ -28,12 +29,14 @@ public:
     virtual ~module_evt_display() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 
-    TCanvas * c; //! Canvas to display the event
+    TCanvas * c_pmt; //! Canvas to display the event
+    TCanvas * c_crt; //! Canvas to display the event
 	
 	std::vector<TH1F*> _waveform;
+	std::vector<TProfile*> _waveform_avg;
 	
 private:
 

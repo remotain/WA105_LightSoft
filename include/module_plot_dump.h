@@ -26,7 +26,7 @@ public:
     virtual ~module_plot_dump() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 
 private:

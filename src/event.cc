@@ -34,18 +34,24 @@ void event::set_input_tree( TTree * tree){
 	
 	if( strcmp(tree->GetName(), "midas_data") == 0 ){
 	
-		_chain->SetBranchAddress("TimeStamp"     , &_time_stamp    , &_b_time_stamp  );
-		_chain->SetBranchAddress("event"         , &_nevent        , &_b_event       );
-		_chain->SetBranchAddress("nchannels"     , &_nchannels     , &_b_nchannels   );
-		_chain->SetBranchAddress("nsamples"      , &_nsamples      , &_b_nsamples    );
-		_chain->SetBranchAddress("TimeSample"    , &_time_sample   , &_b_time_sample );
-		_chain->SetBranchAddress("crt_daq_match" , &_crt_daq_match , &_b_crt_daq_match );
-		_chain->SetBranchAddress("adc_value_0"   , _adc_value_0    , &_b_adc_value_0 );
-		_chain->SetBranchAddress("adc_value_1"   , _adc_value_1    , &_b_adc_value_1 );
-		_chain->SetBranchAddress("adc_value_2"   , _adc_value_2    , &_b_adc_value_2 );
-		_chain->SetBranchAddress("adc_value_3"   , _adc_value_3    , &_b_adc_value_3 );
-		_chain->SetBranchAddress("adc_value_4"   , _adc_value_4    , &_b_adc_value_4 );
-		_chain->SetBranchAddress("adc_value_5"   , _adc_value_5    , &_b_adc_value_5 );
+		_chain->SetBranchAddress("TimeStamp"        , &_time_stamp      , &_b_time_stamp      );
+		_chain->SetBranchAddress("event"            , &_nevent          , &_b_event           );
+		_chain->SetBranchAddress("nchannels"        , &_nchannels       , &_b_nchannels       );
+		_chain->SetBranchAddress("nsamples"         , &_nsamples        , &_b_nsamples        );
+		_chain->SetBranchAddress("TimeSample"       , &_time_sample     , &_b_time_sample     );
+		_chain->SetBranchAddress("crt_daq_match"    , &_crt_daq_match   , &_b_crt_daq_match   );
+		_chain->SetBranchAddress( "crt_reco"        , &_crt_reco		, &_b_crt_reco        );
+		_chain->SetBranchAddress( "crt_adc"         , _crt_adc          , &_b_crt_adc         );
+		_chain->SetBranchAddress( "crt_track_param" , _crt_track_param  , &_b_crt_track_param );
+		_chain->SetBranchAddress( "crt_track_time"  , _crt_track_time   , &_b_crt_track_time  );
+		_chain->SetBranchAddress( "crt_track_pos0"  , _crt_track_pos0   , &_b_crt_track_pos0  );
+		_chain->SetBranchAddress( "crt_track_pos1"  , _crt_track_pos1   , &_b_crt_track_pos1  );
+		_chain->SetBranchAddress("adc_value_0"      , _adc_value_0      , &_b_adc_value_0     );
+		_chain->SetBranchAddress("adc_value_1"      , _adc_value_1      , &_b_adc_value_1     );
+		_chain->SetBranchAddress("adc_value_2"      , _adc_value_2      , &_b_adc_value_2     );
+		_chain->SetBranchAddress("adc_value_3"      , _adc_value_3      , &_b_adc_value_3     );
+		_chain->SetBranchAddress("adc_value_4"      , _adc_value_4      , &_b_adc_value_4     );
+		_chain->SetBranchAddress("adc_value_5"      , _adc_value_5      , &_b_adc_value_5     );
 
 	} else if ( strcmp( tree->GetName(), "reco_data") == 0 ){
 
@@ -56,6 +62,12 @@ void event::set_input_tree( TTree * tree){
 		_chain->SetBranchAddress("_nsamples"            , &_nsamples           , &_b_nsamples            );
 		_chain->SetBranchAddress("_time_sample"         , &_time_sample        , &_b_time_sample         );
 		_chain->SetBranchAddress("_crt_daq_match"       , &_crt_daq_match      , &_b_crt_daq_match       );
+		_chain->SetBranchAddress( "crt_reco"            , &_crt_reco		   , &_b_crt_reco            );
+		_chain->SetBranchAddress( "crt_adc"             , _crt_adc             , &_b_crt_adc             );
+		_chain->SetBranchAddress( "crt_track_param"     , _crt_track_param     , &_b_crt_track_param     );
+		_chain->SetBranchAddress( "crt_track_time"      , _crt_track_time      , &_b_crt_track_time      );
+		_chain->SetBranchAddress( "crt_track_pos0"      , _crt_track_pos0      , &_b_crt_track_pos0      );
+		_chain->SetBranchAddress( "crt_track_pos1"      , _crt_track_pos1      , &_b_crt_track_pos1      );
 		_chain->SetBranchAddress( "_waveform_0"         , _waveform_0          , &_b_waveform_0          );
 		_chain->SetBranchAddress( "_waveform_1"         , _waveform_1          , &_b_waveform_1          );
 		_chain->SetBranchAddress( "_waveform_2"         , _waveform_2          , &_b_waveform_2          );
@@ -79,24 +91,29 @@ void event::set_input_tree( TTree * tree){
 
 void event::set_output_tree( TTree * tree){
 	
-	tree->Branch( "_time_stamp"         , &_time_stamp         , "_time_stamp/I"         );
-	tree->Branch( "_nevent"             , &_nevent             , "_nevent/I"             );
-	tree->Branch( "_nsamples"           , &_nsamples           , "_nsamples/I"           );
-	tree->Branch( "_time_sample"        , &_time_sample        , "_time_sample/I"        );
-	tree->Branch( "_crt_daq_match"      , &_crt_daq_match      , "_crt_daq_match/I"      );
-
-	tree->Branch( "_waveform_0"         , "std::vector<int>"    , &_waveform_0          );
-	tree->Branch( "_waveform_1"         , "std::vector<int>"    , &_waveform_1          );
-	tree->Branch( "_waveform_2"         , "std::vector<int>"    , &_waveform_2          );
-	tree->Branch( "_waveform_3"         , "std::vector<int>"    , &_waveform_3          );
-	tree->Branch( "_waveform_4"         , "std::vector<int>"    , &_waveform_4          );
-	tree->Branch( "_waveform_5"         , "std::vector<int>"    , &_waveform_5          );	
-	tree->Branch( "_reco_pedestals"     , "std::vector<double>" , &_reco_pedestals      );
-	tree->Branch( "_reco_pedestals_std" , "std::vector<double>" , &_reco_pedestals_std  );
-	tree->Branch( "_reco_min_adc"       , "std::vector<double>" , &_reco_min_adc        );
-	tree->Branch( "_reco_min_adc_time"  , "std::vector<double>" , &_reco_min_adc_time   );
-	tree->Branch( "_reco_charges"       , "std::vector<double>" , &_reco_charges        );	
-	tree->Branch( "_reco_n_peaks"       , "std::vector<double>" , &_reco_n_peaks        );	
+	tree->Branch( "_time_stamp"         , &_time_stamp          , "_time_stamp/I"         );
+	tree->Branch( "_nevent"             , &_nevent              , "_nevent/I"             );
+	tree->Branch( "_nsamples"           , &_nsamples            , "_nsamples/I"           );
+	tree->Branch( "_time_sample"        , &_time_sample         , "_time_sample/I"        );
+	tree->Branch( "_crt_daq_match"      , &_crt_daq_match       , "_crt_daq_match/I"      );
+	tree->Branch( "crt_reco"            , &_crt_reco            , "_crt_reco/I"           );
+	tree->Branch( "crt_adc"             , &_crt_adc             , "_crt_adc/I"            );
+	tree->Branch( "crt_track_param"     , &_crt_track_param     , "_crt_track_param[2]/F" );
+	tree->Branch( "crt_track_time"      , &_crt_track_time      , "_crt_track_time[2]/I"  );
+	tree->Branch( "crt_track_pos0"      , &_crt_track_pos0      , "_crt_track_pos0[3]/F"  );
+	tree->Branch( "crt_track_pos1"      , &_crt_track_pos1      , "_crt_track_pos1[3]/F"  );
+	tree->Branch( "_waveform_0"         , "std::vector<int>"    , &_waveform_0            );
+	tree->Branch( "_waveform_1"         , "std::vector<int>"    , &_waveform_1            );
+	tree->Branch( "_waveform_2"         , "std::vector<int>"    , &_waveform_2            );
+	tree->Branch( "_waveform_3"         , "std::vector<int>"    , &_waveform_3            );
+	tree->Branch( "_waveform_4"         , "std::vector<int>"    , &_waveform_4            );
+	tree->Branch( "_waveform_5"         , "std::vector<int>"    , &_waveform_5            );	
+	tree->Branch( "_reco_pedestals"     , "std::vector<double>" , &_reco_pedestals        );
+	tree->Branch( "_reco_pedestals_std" , "std::vector<double>" , &_reco_pedestals_std    );
+	tree->Branch( "_reco_min_adc"       , "std::vector<double>" , &_reco_min_adc          );
+	tree->Branch( "_reco_min_adc_time"  , "std::vector<double>" , &_reco_min_adc_time     );
+	tree->Branch( "_reco_charges"       , "std::vector<double>" , &_reco_charges          );	
+	tree->Branch( "_reco_n_peaks"       , "std::vector<double>" , &_reco_n_peaks          );	
 		
 }
 

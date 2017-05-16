@@ -32,19 +32,29 @@ void module_plot_dump::begin(){
 	plotter::get_me().add( new TProfile ("overall_waveform_ch2", "Overal waveform ch 2; Time [ns]; ADC counts", 1000, 0, 4000, "i") ); 	
 	plotter::get_me().add( new TProfile ("overall_waveform_ch3", "Overal waveform ch 3; Time [ns]; ADC counts", 1000, 0, 4000, "i") ); 	
 	plotter::get_me().add( new TProfile ("overall_waveform_ch4", "Overal waveform ch 4; Time [ns]; ADC counts", 1000, 0, 4000, "i") ); 				
+	plotter::get_me().add( new TProfile ("overall_waveform_ch5", "Overal waveform ch 5; Time [ns]; ADC counts", 1000, 0, 4000, "i") ); 					
 
-	plotter::get_me().add( new TH1F ("sum_waveform_ch4", "Sum waveform ch 4; Time [ns]; ADC counts", 1000, 0, 4000) ); 				
+	//plotter::get_me().add( new TH1F ("sum_waveform_ch4", "Sum waveform ch 4; Time [ns]; ADC counts", 1000, 0, 4000) ); 				
 	
 }
 
-void module_plot_dump::process( event * evt){
+bool module_plot_dump::process( event * evt){
+	
+	// exclude events whit more than 1 hit per crt plane
+	if( evt->get_crt_reco() != 1 ) return true;
+	
+	// Crossing muon should shown dt in [-120; -90] ns (without correcting delays)
+	// Everything off this intervals is likely to be showers
+	int * times = evt->get_crt_track_time();
+	int dt = times[0] - times[1];
+	if( dt < -120 || dt > -90 ) return true;
 	
 	if( _t_min == 0 ) _t_min = evt->get_time_stamp();
 	
 	if( _t_max < evt->get_time_stamp() ) _t_max =  evt->get_time_stamp();
 	
 	_t.push_back(evt->get_time_stamp() - _t_min);	
-	
+		
 	for (int ch = 0; ch < evt->get_nchannels(); ch++){
 		
 		//std::vector<int> * waveform = evt->get_waveform(ch);
@@ -54,6 +64,7 @@ void module_plot_dump::process( event * evt){
 		// exclude saturated waveforms
 		int min_adc_count = TMath::MinElement( evt->get_waveform(ch)->size() , &evt->get_waveform(ch)->at(0) );
 		int max_adc_count = TMath::MaxElement( evt->get_waveform(ch)->size() , &evt->get_waveform(ch)->at(0) );
+
 		if( min_adc_count == 0 || max_adc_count == 4096){
 			_n_evt_exc++;
 			continue;	
@@ -63,9 +74,9 @@ void module_plot_dump::process( event * evt){
 			
 			plotter::get_me().find( TString::Format("overall_waveform_ch%i", ch ) )->Fill( i * 4 , evt->get_waveform(ch)->at(i));
 
-			if(ch == 4) {
-				plotter::get_me().find( TString::Format("sum_waveform_ch%i", ch ) )->Fill( i * 4 , evt->get_waveform(ch)->at(i));
-			}
+			//if(ch == 4) {
+			//	plotter::get_me().find( TString::Format("sum_waveform_ch%i", ch ) )->Fill( i * 4 , evt->get_waveform(ch)->at(i));
+			//}
 			
 			//plotter::get_me().find2d("overall_waveform_2d")->Fill(i*4, ch, evt->get_waveform(ch)->at(i));
 		    //plotter::get_me().find("overall_waveform_1d")->Fill(i*4, evt->get_waveform(ch)->at(i));	
@@ -76,6 +87,8 @@ void module_plot_dump::process( event * evt){
 	}
 	
 	_n_evt++;
+	
+	return true;
 		
 }
 
@@ -105,6 +118,7 @@ void module_plot_dump::terminate(){
 	plotter::get_me().find( "overall_waveform_ch2" )->GetYaxis()->SetRangeUser(0, 4500);
 	plotter::get_me().find( "overall_waveform_ch3" )->GetYaxis()->SetRangeUser(0, 4500);
 	plotter::get_me().find( "overall_waveform_ch4" )->GetYaxis()->SetRangeUser(0, 4500);
+	plotter::get_me().find( "overall_waveform_ch5" )->GetYaxis()->SetRangeUser(0, 4500);	
 	
 	//plotter::get_me().find("overall_waveform_ch0")->Sumw2();
 	//plotter::get_me().find("overall_waveform_ch1")->Sumw2();

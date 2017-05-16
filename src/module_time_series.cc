@@ -31,7 +31,7 @@ void module_time_series::begin(){
 	
 };
 
-void module_time_series::process( event * evt){	
+bool module_time_series::process( event * evt){	
 	
 	if( _t_zero == 0 ) _t_zero = evt->get_time_stamp();
 	
@@ -49,6 +49,7 @@ void module_time_series::process( event * evt){
 		
 	}
 	
+	return true;
 	
 };
 

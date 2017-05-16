@@ -19,7 +19,7 @@ TH1 * plotter::find( const char* name )
 
 	TH1 * obj = (TH1*) _collection->FindObject(name); 
 	
-	if ( !obj ) Error("find", "Histo '%s' not found in collection", name);
+	//if ( !obj ) Info("find", "Histo '%s' not found in collection", name);
 		
 	return obj;
 };
@@ -30,7 +30,7 @@ TH2 * plotter::find2d( const char* name )
 
 	TH2 * obj = (TH2*) _collection->FindObject(name); 
 	
-	if ( !obj ) Error("find", "Histo '%s' not found in collection", name);
+	//if ( !obj ) Info("find", "Histo '%s' not found in collection", name);
 		
 	return obj;
 };
@@ -41,7 +41,7 @@ TGraph * plotter::findGraph( const char* name )
 
 	TGraph * obj = (TGraph*) _g_collection->FindObject(name); 
 	
-	if ( !obj ) Error("find", "Graph '%s' not found in collection", name);
+	//if ( !obj ) Info("find", "Graph '%s' not found in collection", name);
 		
 	return obj;
 };

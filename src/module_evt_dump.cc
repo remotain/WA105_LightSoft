@@ -19,7 +19,7 @@
 
 void module_evt_dump::begin(){;}
 
-void module_evt_dump::process( event * evt){
+bool module_evt_dump::process( event * evt){
 	
 	std::cout << "Dump event number: " << evt->get_nevent() << std::endl;
 	std::cout << "" << std::endl;
@@ -35,6 +35,8 @@ void module_evt_dump::process( event * evt){
 	std::cout << "\t Waveform ch1 : " << evt->get_waveform(1) << std::endl;  
 	std::cout << "\t pedestal     : " << evt->get_reco_pedestal(1) << "+/-" << evt->get_reco_pedestal_std(1) << std::endl;  
 	std::cout << "\t charge       : " << evt->get_reco_charge(1) << std::endl;  
+
+	return true;
 		
 }
 

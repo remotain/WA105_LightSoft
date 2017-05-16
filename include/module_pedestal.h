@@ -25,7 +25,7 @@ public:
     virtual ~module_pedestal() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 
 	virtual void set_nsample( int a_value) { _nsample = a_value; };

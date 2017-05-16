@@ -28,7 +28,7 @@ void module_peak_finder::begin(){
 	
 };
 
-void module_peak_finder::process( event * evt){	
+bool module_peak_finder::process( event * evt){	
 	
 	for (int ch = 0; ch < evt->get_nchannels(); ch++){
 	
@@ -43,6 +43,8 @@ void module_peak_finder::process( event * evt){
 		}
 			
 	}
+	
+	return true;
 	
 };
 

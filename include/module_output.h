@@ -34,7 +34,7 @@ public:
     virtual ~module_output() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 
 	void set_file_name( const char * a_string ) { _file_name = a_string; }; 

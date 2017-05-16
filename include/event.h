@@ -145,7 +145,13 @@ public:
 	int              get_nsamples    ( ) { return _nsamples     ; };
 	int              get_time_sample ( ) { return _time_sample  ; }; // s
 
-	int              get_crt_daq_match() { return _crt_daq_match; };
+	int              get_crt_daq_match()      { return _crt_daq_match;                     };
+	int              get_crt_reco()           { return _crt_reco;                          };
+	int   *          get_crt_adc( int plane ) { return (plane < 4) ? _crt_adc[plane] : 0 ; };
+	float *          get_crt_track_param()    { return _crt_track_param;                   };
+	int   *          get_crt_track_time()     { return _crt_track_time;                    };
+	float *          get_crt_track_pos0()     { return _crt_track_pos0;                    };
+	float *          get_crt_track_pos1()     { return _crt_track_pos1;                    };
 
 	std::vector<int> * get_waveform ( int ch );
 
@@ -169,7 +175,13 @@ private:
     int              _nsamples         ;
     int              _time_sample      ;
 
-	int				 _crt_daq_match    ;
+	int				 _crt_daq_match     ;
+	int             _crt_reco           ;
+	int             _crt_adc[4][32]     ;
+	float           _crt_track_param[2] ;
+	int             _crt_track_time[2]  ;
+	float           _crt_track_pos0[3]  ;
+	float           _crt_track_pos1[3]  ;	
 
     int              _adc_value_0[1000];
     int              _adc_value_1[1000];
@@ -206,6 +218,12 @@ private:
     TBranch *_b_nsamples;     //! Input branch
     TBranch *_b_time_sample;  //! Input branch
     TBranch *_b_crt_daq_match;//! Input branch
+	TBranch *_b_crt_reco;
+	TBranch *_b_crt_adc;
+	TBranch *_b_crt_track_param;
+	TBranch *_b_crt_track_time;
+	TBranch *_b_crt_track_pos0;
+	TBranch *_b_crt_track_pos1;
     TBranch *_b_adc_value_0;  //! Input branch
     TBranch *_b_adc_value_1;  //! Input branch
     TBranch *_b_adc_value_2;  //! Input branch

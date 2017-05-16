@@ -27,7 +27,7 @@ public:
     virtual ~module_time_series() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 
 	virtual void push_pool(event * evt ){ _event_pool.push_back(evt); };

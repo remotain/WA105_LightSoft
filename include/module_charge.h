@@ -35,7 +35,7 @@ public:
 	virtual ~module_charge() { };
 
 	virtual void begin();
-	virtual void process( event * evt);
+	virtual bool process( event * evt);
 	virtual void terminate();
 	
 	//virtual void set_pulse_max_tolerance( int a_value) { _pulse_max_tolerance = a_value; };

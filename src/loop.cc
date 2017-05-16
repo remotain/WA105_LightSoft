@@ -100,7 +100,13 @@ Bool_t loop::Process(Long64_t entry)
 	// Each event is passed to the module::process() of each module present in the
 	// _module_list for processing
     for(int i = 0; i < _module_list.size(); i++) {
-        _module_list[i]->process(_event);
+
+		bool ok = _module_list[i]->process(_event);
+		
+		//Info( "Process()", "%i", ok );
+		
+		if ( !ok ) return kTRUE;
+
     }
     	
 	if( _k_save_output ) {
