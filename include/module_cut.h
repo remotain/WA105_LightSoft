@@ -42,9 +42,13 @@ public:
 		_crt_track_z_min      = -1.;
 		_crt_track_z_max      = -1.;
 		
-		_counter_pmt_saturate  = 0;
-		_counter_crt_match     = 0;
-		_counter_crt_reco      = 0;	
+		_counter_pmt_saturate = 0;
+		_counter_pmt_peak     = 0;
+		_counter_crt_match    = 0;
+		_counter_crt_reco     = 0;
+		
+
+
 			
 	};
 	
@@ -111,6 +115,7 @@ private:
 		
 	
 	int _counter_pmt_saturate ;
+	int _counter_pmt_peak ;
 	int _counter_crt_match    ;
     int _counter_crt_reco     ;
 

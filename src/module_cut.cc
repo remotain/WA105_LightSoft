@@ -26,6 +26,20 @@ void module_cut::begin(){
 };
 
 bool module_cut::process( event * evt){
+
+	if ( _cut_crt_match && evt->get_crt_daq_match() == 0 ){
+
+		_counter_crt_match++;
+		return false;
+
+	}
+	
+    if ( _cut_crt_reco && evt->get_crt_reco() == 0 ) {
+    	
+		_counter_crt_reco++;
+		return false;
+		
+    }
 		
 	if( _cut_pmt_saturate ){
 		
@@ -51,26 +65,13 @@ bool module_cut::process( event * evt){
 				evt->get_reco_min_adc_time(3) < _pmt_peak_t_min || evt->get_reco_min_adc_time(3) > _pmt_peak_t_max ||
 				evt->get_reco_min_adc_time(4) < _pmt_peak_t_min || evt->get_reco_min_adc_time(4) > _pmt_peak_t_max ){
 				
+				_counter_pmt_peak++;
 				return false;
 				
 			} 
 		}
 	}
 	
-	if ( _cut_crt_match && evt->get_crt_daq_match() == 0 ){
-
-		_counter_crt_match++;
-		return false;
-
-	}
-	
-    if ( _cut_crt_reco && evt->get_crt_reco() == 0 ) {
-    	
-		_counter_crt_reco++;
-		return false;
-		
-    }
-
     if ( _cut_crt_delta_t ){ 
 		
 		double dt = evt->get_crt_track_time()[1] -  evt->get_crt_track_time()[0];
@@ -113,6 +114,11 @@ bool module_cut::process( event * evt){
 };
 
 void module_cut::terminate(){
+
+	Info("terminate()", "# CRT match    : %d", _counter_crt_match   );
+	Info("terminate()", "# CRT reco     : %d", _counter_crt_reco    );		
+	Info("terminate()", "# PMT saturate : %d", _counter_pmt_saturate);
+	Info("terminate()", "# PMT peak     : %d", _counter_pmt_peak    );
 	
 };
 

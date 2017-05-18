@@ -41,13 +41,13 @@ void module_plot_dump::begin(){
 bool module_plot_dump::process( event * evt){
 	
 	// exclude events whit more than 1 hit per crt plane
-	if( evt->get_crt_reco() != 1 ) return true;
+	//if( evt->get_crt_reco() != 1 ) return true;
 	
 	// Crossing muon should shown dt in [-120; -90] ns (without correcting delays)
 	// Everything off this intervals is likely to be showers
-	int * times = evt->get_crt_track_time();
-	int dt = times[0] - times[1];
-	if( dt < -120 || dt > -90 ) return true;
+	//int * times = evt->get_crt_track_time();
+	//int dt = times[0] - times[1];
+	//if( dt < -120 || dt > -90 ) return true;
 	
 	if( _t_min == 0 ) _t_min = evt->get_time_stamp();
 	

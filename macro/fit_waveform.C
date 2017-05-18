@@ -485,14 +485,14 @@ void fit_waveform( int mode = 0, int channel = 0, int run = 211 ){
 	// Perform the fit
 	if (mode == 0) {
 		
-		limit[0] = 530;
+		limit[0] = 450;
 		limit[1] = 3995;
-		
-		init[0] = 555;    // Fit t_0
-		init[1] = 10;     // Fit sigma		
+
+		init[0] = 500;    // Fit t_0
+		init[1] = 20;     // Fit sigma		
 		init[2] = 10000 ;  // a1
 		init[3] = 6    ;  // t1
-		init[4] = 100  ;  // a2
+		init[4] = 1000  ;  // a2
 		init[5] = 50   ;  // t2
 		init[6] = 1000   ;  // a3
 		init[7] = 1500 ;  // t3				
@@ -561,73 +561,78 @@ void fit_waveform_all_ch( int mode = 0, int run = 211, int part = 0 ){
 		if (mode == 0){
 
 			if ( i == 0 ) { 
-				limit[0] = 480;
+
+				limit[0] = 450;
 				limit[1] = 3995;
-				
-				init[0] = 520;    // Fit t_0
-				init[1] = 11;     // Fit sigma		
-				init[2] = 1600 ;  // a1
+		
+				init[0] = 500;    // Fit t_0
+				init[1] = 20;     // Fit sigma		
+				init[2] = 10000 ;  // a1
 				init[3] = 6    ;  // t1
-				init[4] = 100  ;  // a2
-				init[5] = 57   ;  // t2
-				init[6] = 19   ;  // a3
-				init[7] = 3500 ;  // t3
+				init[4] = 1000  ;  // a2
+				init[5] = 50   ;  // t2
+				init[6] = 1000   ;  // a3
+				init[7] = 1500 ;  // t3				
 				
 				}
 			if ( i == 1 ) { 
-				limit[0] = 480;
+
+				limit[0] = 450;
 				limit[1] = 3995;
-				
-				init[0] = 513;    // Fit t_0
+		
+				init[0] = 500;    // Fit t_0
 				init[1] = 20;     // Fit sigma		
-				init[2] = 1100 ;  // a1
+				init[2] = 10000 ;  // a1
 				init[3] = 6    ;  // t1
-				init[4] = 60  ;  // a2
-				init[5] = 81   ;  // t2
-				init[6] = 32   ;  // a3
-				init[7] = 1400 ;  // t3
+				init[4] = 1000  ;  // a2
+				init[5] = 50   ;  // t2
+				init[6] = 1000   ;  // a3
+				init[7] = 1500 ;  // t3				
 
 				}
 			if ( i == 2 ) { 
-				limit[0] = 540;
+				limit[0] = 510;
 				limit[1] = 3995;
-				
-				init[0] = 580;    // Fit t_0
-				init[1] = 24;     // Fit sigma		
-				init[2] = 5000 ;  // a1
+		
+				init[0] = 520;    // Fit t_0
+				init[1] = 20;     // Fit sigma		
+				init[2] = 10000 ;  // a1
 				init[3] = 6    ;  // t1
-				init[4] = 0  ;  // a2
-				init[5] = 1.   ;  // t2
-				init[6] = 58   ;  // a3
-				init[7] = 1300 ;  // t3
+				init[4] = -1  ;  // a2
+				init[5] = -1   ;  // t2
+				init[6] = 1000   ;  // a3
+				init[7] = 1500 ;  // t3				
 				
 				}
 			if ( i == 3 ) { 
-				limit[0] = 540;
+				limit[0] = 510;
 				limit[1] = 3995;
-				
-				init[0] = 580;    // Fit t_0
-				init[1] = 24;     // Fit sigma		
-				init[2] = 5000 ;  // a1
+		
+				init[0] = 520;    // Fit t_0
+				init[1] = 20;     // Fit sigma		
+				init[2] = 10000 ;  // a1
 				init[3] = 6    ;  // t1
-				init[4] = 0  ;  // a2
-				init[5] = 1.   ;  // t2
-				init[6] = 58   ;  // a3
-				init[7] = 1300 ;  // t3			
+				init[4] = -1  ;  // a2
+				init[5] = -1   ;  // t2
+				init[6] = 1000   ;  // a3
+				init[7] = 1500 ;  // t3				
 				}
 			if ( i == 4 ) { 
-				limit[0] = 480;
+
+				limit[0] = 460;
 				limit[1] = 3995;
-				
-				init[0] = 522;    // Fit t_0
-				init[1] = 24;     // Fit sigma		
-				init[2] = 3324 ;  // a1
+		
+				init[0] = 520;    // Fit t_0
+				init[1] = 20;     // Fit sigma		
+				init[2] = 10000 ;  // a1
 				init[3] = 6    ;  // t1
-				init[4] = 100  ;  // a2
-				init[5] = 144   ;  // t2
-				init[6] = 77   ;  // a3
-				init[7] = 1700 ;  // t3				
-				}
+				init[4] = 1000  ;  // a2
+				init[5] = 50   ;  // t2
+				init[6] = 1000   ;  // a3
+				init[7] = 1500 ;  // t3				
+
+
+			}
 		    
 			_res = fit_waveform_data(_h, init); 
 
