@@ -92,7 +92,10 @@ private:
 		
 	};
 	
-    ~plotter() { delete _collection; };
+    ~plotter() { 
+		delete _collection; 
+		delete _g_collection; 
+	};
 	
 	// Stop the compiler generating methods of copy the object
     plotter(plotter const& copy);            // Not Implemented
