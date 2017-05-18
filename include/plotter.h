@@ -93,8 +93,8 @@ private:
 	};
 	
     ~plotter() { 
-		delete _collection; 
-		delete _g_collection; 
+		_collection->Delete(); 
+		_g_collection->Delete(); 
 	};
 	
 	// Stop the compiler generating methods of copy the object
