@@ -71,6 +71,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 			} else {
 				c.Print(filename);
 			}
+			
+			c.Delete();
 		
 		}
 
@@ -89,6 +91,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 			} else {
 				c.Print(filename);
 			}
+			
+			c.Delete();
 		
 		}
 
