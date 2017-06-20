@@ -64,6 +64,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 			TCanvas c (h->GetName(), h->GetTitle());
 			h->Draw();
 			
+			Info("save_as", "Saving %s", h->GetName() );
+			
 			if( h == _collection->First()) {
 				c.Print( TString::Format("%s(", filename) );
 			} else if( h == _collection->Last() && _g_collection->GetEntries() == 0 ) {
@@ -71,8 +73,6 @@ void plotter::save_as(const char* filename, Option_t* option)
 			} else {
 				c.Print(filename);
 			}
-			
-			c.Delete();
 		
 		}
 
@@ -84,6 +84,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 			TCanvas c (g->GetName(), g->GetTitle());
 			g->Draw("AP");
 			
+			Info("save_as", "Saving %s", g->GetName() );
+			
 			if( g == _g_collection->First() && _collection->GetEntries() == 0 ) {
 				c.Print( TString::Format("%s(", filename) );
 			} else if( g == _g_collection->Last()) {
@@ -91,8 +93,6 @@ void plotter::save_as(const char* filename, Option_t* option)
 			} else {
 				c.Print(filename);
 			}
-			
-			c.Delete();
 		
 		}
 
@@ -110,6 +110,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 		
 		while( (h = (TH1D *) next()) ) {
 			
+			Info("save_as", "Saving %s", h->GetName() );
+			
 			a_file.cd();
 			
 			h->Write();
@@ -122,6 +124,8 @@ void plotter::save_as(const char* filename, Option_t* option)
 		TH1D * g;
 		
 		while( (g = (TH1D *) g_next()) ) {
+		
+			Info("save_as", "Saving %s", g->GetName() );
 			
 			a_file.cd();
 			
