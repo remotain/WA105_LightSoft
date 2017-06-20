@@ -61,7 +61,7 @@ void plotter::save_as(const char* filename, Option_t* option)
 		
 		while( (h = (TH1D *) next()) ) {
 			
-			TCanvas c (h->GetName(), h->GetTitle());
+			TCanvas c ( TString::Format( "c_%s", h->GetName()), h->GetTitle());
 			h->Draw();
 			
 			Info("save_as", "Saving %s", h->GetName() );
@@ -81,7 +81,7 @@ void plotter::save_as(const char* filename, Option_t* option)
 		
 		while( (g = (TGraph *) g_next()) ) {
 			
-			TCanvas c (g->GetName(), g->GetTitle());
+			TCanvas c ( TString::Format( "c_%s", g->GetName()), g->GetTitle());
 			g->Draw("AP");
 			
 			Info("save_as", "Saving %s", g->GetName() );
@@ -121,9 +121,9 @@ void plotter::save_as(const char* filename, Option_t* option)
 		}
 	
 		TIter g_next(_g_collection);
-		TH1D * g;
+		TGraph * g;
 		
-		while( (g = (TH1D *) g_next()) ) {
+		while( (g = (TGraph *) g_next()) ) {
 		
 			Info("save_as", "Saving %s", g->GetName() );
 			
