@@ -46,6 +46,8 @@ bool module_evt_display::process( event * evt){
 	
 	Info("process", "Event no.%i, CRT Match %i, CRT Reco %i", evt->get_nevent(), evt->get_crt_daq_match(), evt->get_crt_reco());
 	
+	// PMT waveforms, 5 canvas
+	
 	for( int ch = 0; ch < evt->get_n_channels_active(); ch++ ){	
 		
 		_waveform.push_back( new TH1F( TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), TString::Format("waveform_%i_%i", ch , evt->get_nevent() ), evt->get_waveform(ch)->size(), 0, evt->get_waveform(ch)->size() * evt->get_time_sample() ));
@@ -74,13 +76,13 @@ bool module_evt_display::process( event * evt){
 	
 	}
 	
-	// Trigger waveforms
+	// Trigger waveforms, 1 canvas
 	
 	_waveform[5]->SetTitle("CRT Trigger signal");
 	c_pmt->cd(11); _waveform[5] -> Draw("HIST");
 	c_pmt->cd(11)->Modified(); c_pmt->cd(11)->Update();
 	
-	// CRT Waveform
+	// CRT Waveform, 1 canvas
 	
 	TH1F * a_0 = new TH1F( TString::Format("crt_adc_%i_%i", 0 , evt->get_nevent() ), TString::Format("crt_adc_%i_%i", 0 , evt->get_nevent() ), 32, 0, 32 );
 	TH1F * a_1 = new TH1F( TString::Format("crt_adc_%i_%i", 1 , evt->get_nevent() ), TString::Format("crt_adc_%i_%i", 1 , evt->get_nevent() ), 32, 0, 32 );	
@@ -114,34 +116,73 @@ bool module_evt_display::process( event * evt){
 	c_pmt->cd(12)->BuildLegend();
 	c_pmt->cd(12)->Modified(); c_pmt->cd(12)->Update();
 	
-	// XY view
+	TH2F * crt_xy_0 = new TH2F( TString::Format("crt_xy_0_%i", evt->get_nevent() ), TString::Format("crt_xy_0_%i", evt->get_nevent() ), 32, 0, 32, 32, 0, 32 );
+	TH2F * crt_xy_1 = new TH2F( TString::Format("crt_xy_1_%i", evt->get_nevent() ), TString::Format("crt_xy_1_%i", evt->get_nevent() ), 32, 0, 32, 32, 0, 32 );	
 	
-	TH2F * xy_tmp = new TH2F("xy_view", "XY view; Y [mm]; X [mm]", 100, -4000, +4000, 100, -1000, +1000);
+	for(int i = 0; i < crt_xy_0->GetNbinsX(); i++){
 		
-	TLine * xy_line = new TLine( evt->get_crt_track_pos0()[1], evt->get_crt_track_pos0()[0], evt->get_crt_track_pos1()[1], evt->get_crt_track_pos1()[0] );
+		for(int j = 0; j < crt_xy_0->GetNbinsY(); j++){
+		
+			crt_xy_0->Fill(i+1, j+1, evt->get_crt_adc(0)[i]);
+			crt_xy_0->Fill(i+1, j+1, evt->get_crt_adc(1)[j]);
+			
+			crt_xy_1->Fill(i+1, j+1, evt->get_crt_adc(2)[i]);
+			crt_xy_1->Fill(i+1, j+1, evt->get_crt_adc(3)[j]);
+
+		}
+	}
+
+	//for(int i = 0; i < crt_xy_0->GetNbinsY(); i++){
+    //
+	//	for(int j = 0; j < crt_xy_0->GetNbinsX(); j++){
+	//	
+	//		crt_xy_0->SetBinContent(i+1, j+1, evt->get_crt_adc(1)[j]);
+    //
+	//		crt_xy_1->SetBinContent(i+1, j+1, evt->get_crt_adc(3)[j]);
+    //
+	//	}
+	//}
+
 	
-	//xy_line->Print();
 	
 	c_pmt->cd(13);
-	xy_tmp->Draw();
-	xy_line->Draw("");
+	crt_xy_0->Draw("COL");
 	c_pmt->cd(13)->Modified(); c_pmt->cd(13)->Update();		
+
+	c_pmt->cd(14);
+	crt_xy_1->Draw("COL");
+	c_pmt->cd(14)->Modified(); c_pmt->cd(14)->Update();		
+
+	
+	
+	// XY view
+	
+	//TH2F * xy_tmp = new TH2F("xy_view", "XY view; Y [mm]; X [mm]", 100, -4000, +4000, 100, -1000, +1000);
+	//	
+	//TLine * xy_line = new TLine( evt->get_crt_track_pos0()[1], evt->get_crt_track_pos0()[0], evt->get_crt_track_pos1()[1], evt->get_crt_track_pos1()[0] );
+	//
+	////xy_line->Print();
+	//
+	//c_pmt->cd(13);
+	//xy_tmp->Draw();
+	//xy_line->Draw("");
+	//c_pmt->cd(13)->Modified(); c_pmt->cd(13)->Update();		
     
 	// YZ view
 	
-	TH2F * yz_tmp = new TH2F("yz_view", "YZ view; Y [mm]; Z [mm]", 100, -4000, +4000, 100, -1000, +1000);
-		
-	//TLine * yz_line = new TLine( - evt->get_crt_track_pos0()[1], evt->get_crt_track_param()[0] + evt->get_crt_track_pos0()[1] *  evt->get_crt_track_param()[1], evt->get_crt_track_pos1()[1], evt->get_crt_track_param()[0] - evt->get_crt_track_pos1()[1] *  evt->get_crt_track_param()[1]);
-	
-	TLine * yz_line = new TLine( evt->get_crt_track_pos0()[1], evt->get_crt_track_pos0()[2], evt->get_crt_track_pos1()[1], evt->get_crt_track_pos1()[2]);
-	
-	//yz_line->Print();
-	
-	c_pmt->cd(14);	
-	yz_tmp->Draw();
-	yz_line->Draw("");			
-	c_pmt->cd(14)->Modified(); c_pmt->cd(14)->Update();		
-
+	//TH2F * yz_tmp = new TH2F("yz_view", "YZ view; Y [mm]; Z [mm]", 100, -4000, +4000, 100, -1000, +1000);
+	//	
+	////TLine * yz_line = new TLine( - evt->get_crt_track_pos0()[1], evt->get_crt_track_param()[0] + evt->get_crt_track_pos0()[1] *  evt->get_crt_track_param()[1], evt->get_crt_track_pos1()[1], evt->get_crt_track_param()[0] - evt->get_crt_track_pos1()[1] *  evt->get_crt_track_param()[1]);
+	//
+	//TLine * yz_line = new TLine( evt->get_crt_track_pos0()[1], evt->get_crt_track_pos0()[2], evt->get_crt_track_pos1()[1], evt->get_crt_track_pos1()[2]);
+	//
+	////yz_line->Print();
+	//
+	//c_pmt->cd(14);	
+	//yz_tmp->Draw();
+	//yz_line->Draw("");			
+	//c_pmt->cd(14)->Modified(); c_pmt->cd(14)->Update();		
+	//
 			    
 	TTimer * timer = new TTimer("gSystem->ProcessEvents();", 50, kFALSE);
 	timer->TurnOn();
@@ -169,13 +210,16 @@ bool module_evt_display::process( event * evt){
 				_waveform[i]->Write();
 			}
 												
-			xy_line->Write();
-			yz_line->Write();
+			//xy_line->Write();
+			//yz_line->Write();
 			
 			a_0->Write();
 			a_1->Write();
 			a_2->Write();
 			a_3->Write();
+			
+			crt_xy_0->Write();
+			crt_xy_1->Write();
 			
 			tmp_f->Close();
 			
@@ -191,16 +235,19 @@ bool module_evt_display::process( event * evt){
   	delete timer;
 	_waveform.clear();
 
-	delete xy_tmp;
-	delete xy_line;
+	//delete xy_tmp;
+	//delete xy_line;
     
-	delete yz_tmp;
-	delete yz_line;
+	//delete yz_tmp;
+	//delete yz_line;
     
 	delete a_0;
 	delete a_1;
 	delete a_2;
 	delete a_3;
+
+	delete crt_xy_0;
+	delete crt_xy_1;
 
 	return true;
 
