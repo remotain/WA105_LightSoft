@@ -25,7 +25,7 @@
 void module_peak_finder::begin(){
 
 	_treshold = 5; // # of sigma wrt pedestal
-	
+		
 };
 
 bool module_peak_finder::process( event * evt){	

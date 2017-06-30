@@ -10,11 +10,15 @@
 
 #define module_template_cxx
 
+#include "module_template.h"
+
 void module_template::begin(){
 		
 };
 
 bool module_template::process( event * evt){
+		
+	return true;
 		
 };
 

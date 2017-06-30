@@ -25,8 +25,8 @@ public:
 		//_pulse_max_tolerance   = 5;
 		//_pulse_start_amplitude = 0.20;
 	
-		_window_start = 0; /*sample*/
-		_window_length = 1000; /*samples*/
+		_window_start = -1; /*sample*/
+		_window_length = -1; /*samples*/
 	
 	
 	};

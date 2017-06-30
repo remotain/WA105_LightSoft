@@ -30,6 +30,8 @@ public:
 		_cut_crt_delta_t  = false;
 		_cut_crt_track    = false;	
 		
+		_cut_crt_time_stamp   = false;	
+		
 		_pmt_peak_t_min       = -1.;
 		_pmt_peak_t_max       = -1.;
 		
@@ -47,7 +49,8 @@ public:
 		_counter_crt_match    = 0;
 		_counter_crt_reco     = 0;
 		
-
+		_time_stamp_start = -1;
+		_time_stamp_stop  = -1;
 
 			
 	};
@@ -71,6 +74,15 @@ public:
 	void set_cut_crt_match   ( bool set = true ) { _cut_crt_match    = set; };
 
 	void set_cut_crt_reco    ( bool set = true ) { _cut_crt_reco     = set; };	
+
+	void set_cut_time_stamp( double start = -1, double stop = -1) {
+		
+		_cut_crt_time_stamp = true;	
+		
+		_time_stamp_start = start;
+		_time_stamp_stop  = stop;
+		
+	}
 
 	void set_cut_crt_delta_t ( double min = 100., double max = 130.) { 
 		_cut_crt_delta_t = true; 
@@ -100,6 +112,7 @@ private:
     bool _cut_crt_reco     ;
     bool _cut_crt_delta_t  ;
     bool _cut_crt_track    ;
+	bool _cut_crt_time_stamp;
 
 	double _pmt_peak_t_min ;
 	double _pmt_peak_t_max ;
@@ -119,6 +132,8 @@ private:
 	int _counter_crt_match    ;
     int _counter_crt_reco     ;
 
+	int _time_stamp_start;
+	int _time_stamp_stop;
 
 		  
 	ClassDef(module_cut,0);

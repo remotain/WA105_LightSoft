@@ -26,12 +26,16 @@ void module_cut::begin(){
 };
 
 bool module_cut::process( event * evt){
-
-	if ( _cut_crt_match && evt->get_crt_daq_match() == 0 ){
-
-		_counter_crt_match++;
-		return false;
-
+	
+	
+	if( _cut_crt_time_stamp ){
+		
+		if( evt->get_time_stamp() < _time_stamp_start || evt->get_time_stamp() > _time_stamp_stop){
+			
+			return false;
+			
+		}
+		
 	}
 	
     if ( _cut_crt_reco && evt->get_crt_reco() == 0 ) {

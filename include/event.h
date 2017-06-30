@@ -147,11 +147,21 @@ public:
 
 	int              get_crt_daq_match()      { return _crt_daq_match;                     };
 	int              get_crt_reco()           { return _crt_reco;                          };
+
+	float            get_crt_tof_H1V1()       { return _crt_tof_H1V1;                      };
+	float            get_crt_tof_H2V2()       { return _crt_tof_H2V2;                      };	
+	float            get_crt_tof()            { return _crt_tof;                           };
+
 	int   *          get_crt_adc( int plane ) { return (plane < 4) ? _crt_adc[plane] : 0 ; };
+	
 	float *          get_crt_track_param()    { return _crt_track_param;                   };
 	int   *          get_crt_track_time()     { return _crt_track_time;                    };
 	float *          get_crt_track_pos0()     { return _crt_track_pos0;                    };
 	float *          get_crt_track_pos1()     { return _crt_track_pos1;                    };
+
+
+	std::vector<int>  get_crt_channel_hits( int plane , double threshold = 1000);
+	std::vector<int>  get_crt_strip_hits( int plane , double threshold = 1000);
 
 	std::vector<int> * get_waveform ( int ch );
 
@@ -176,19 +186,22 @@ private:
     int              _time_sample      ;
 
 	int				 _crt_daq_match     ;
-	int             _crt_reco           ;
-	int             _crt_adc[4][32]     ;
-	float           _crt_track_param[2] ;
-	int             _crt_track_time[2]  ;
-	float           _crt_track_pos0[3]  ;
-	float           _crt_track_pos1[3]  ;	
+	int              _crt_reco           ;
+	int              _crt_adc[4][32]     ;
+	float            _crt_track_param[2] ;
+	int              _crt_track_time[2]  ;
+	float            _crt_track_pos0[3]  ;
+	float            _crt_track_pos1[3]  ;	
+	float 			 _crt_tof_H1V1;
+	float 			 _crt_tof_H2V2;
+	float			 _crt_tof;
 
-    int              _adc_value_0[1000];
-    int              _adc_value_1[1000];
-    int              _adc_value_2[1000];
-    int              _adc_value_3[1000];
-    int              _adc_value_4[1000];
-    int              _adc_value_5[1000];	
+    int              _adc_value_0[300000];
+    int              _adc_value_1[300000];
+    int              _adc_value_2[300000];
+    int              _adc_value_3[300000];
+    int              _adc_value_4[300000];
+    int              _adc_value_5[300000];	
 
 
 	std::vector<int>      *_waveform_0;
@@ -224,6 +237,9 @@ private:
 	TBranch *_b_crt_track_time;
 	TBranch *_b_crt_track_pos0;
 	TBranch *_b_crt_track_pos1;
+    TBranch *_b_crt_tof_H1V1;
+    TBranch *_b_crt_tof_H2V2;
+    TBranch *_b_crt_tof;
     TBranch *_b_adc_value_0;  //! Input branch
     TBranch *_b_adc_value_1;  //! Input branch
     TBranch *_b_adc_value_2;  //! Input branch

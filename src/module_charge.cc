@@ -52,6 +52,9 @@ bool module_charge::process( event * evt){
 				
 	for (int ch = 0; ch < evt->get_n_channels_active(); ch++){
 	
+		_window_start = 0;
+		_window_length = evt->get_waveform(ch)->size();
+	
 		if ( (_window_start + _window_length) > evt->get_waveform(ch)->size() ){
 			Fatal("process", "The integration window is longer than the current waveform: %i, %i, %lu", _window_start, _window_length, evt->get_waveform(ch)->size());
 		}

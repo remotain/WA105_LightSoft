@@ -40,12 +40,15 @@ void event::set_input_tree( TTree * tree){
 		_chain->SetBranchAddress("nsamples"         , &_nsamples        , &_b_nsamples        );
 		_chain->SetBranchAddress("TimeSample"       , &_time_sample     , &_b_time_sample     );
 		_chain->SetBranchAddress("crt_daq_match"    , &_crt_daq_match   , &_b_crt_daq_match   );
-		_chain->SetBranchAddress( "crt_reco"        , &_crt_reco		, &_b_crt_reco        );
-		_chain->SetBranchAddress( "crt_adc"         , _crt_adc          , &_b_crt_adc         );
-		_chain->SetBranchAddress( "crt_track_param" , _crt_track_param  , &_b_crt_track_param );
-		_chain->SetBranchAddress( "crt_track_time"  , _crt_track_time   , &_b_crt_track_time  );
-		_chain->SetBranchAddress( "crt_track_pos0"  , _crt_track_pos0   , &_b_crt_track_pos0  );
-		_chain->SetBranchAddress( "crt_track_pos1"  , _crt_track_pos1   , &_b_crt_track_pos1  );
+		_chain->SetBranchAddress("crt_reco"        , &_crt_reco		, &_b_crt_reco        );
+		_chain->SetBranchAddress("crt_adc"          , _crt_adc          , &_b_crt_adc         );
+		_chain->SetBranchAddress("crt_ToF_H1V1"     , &_crt_tof_H1V1	, &_b_crt_tof_H1V1    );
+		_chain->SetBranchAddress("crt_ToF_H2V2"     , &_crt_tof_H2V2	, &_b_crt_tof_H2V2    );
+		_chain->SetBranchAddress("crt_ToF"          , &_crt_tof		    , &_b_crt_tof         );		
+		_chain->SetBranchAddress("crt_track_param"  , _crt_track_param  , &_b_crt_track_param );
+		_chain->SetBranchAddress("crt_track_time"   , _crt_track_time   , &_b_crt_track_time  );
+		_chain->SetBranchAddress("crt_track_pos0"   , _crt_track_pos0   , &_b_crt_track_pos0  );
+		_chain->SetBranchAddress("crt_track_pos1"   , _crt_track_pos1   , &_b_crt_track_pos1  );
 		_chain->SetBranchAddress("adc_value_0"      , _adc_value_0      , &_b_adc_value_0     );
 		_chain->SetBranchAddress("adc_value_1"      , _adc_value_1      , &_b_adc_value_1     );
 		_chain->SetBranchAddress("adc_value_2"      , _adc_value_2      , &_b_adc_value_2     );
@@ -64,6 +67,9 @@ void event::set_input_tree( TTree * tree){
 		_chain->SetBranchAddress("_crt_daq_match"       , &_crt_daq_match      , &_b_crt_daq_match       );
 		_chain->SetBranchAddress( "crt_reco"            , &_crt_reco		   , &_b_crt_reco            );
 		_chain->SetBranchAddress( "crt_adc"             , _crt_adc             , &_b_crt_adc             );
+		_chain->SetBranchAddress( "crt_tof_H1V1"        , &_crt_tof_H1V1	   , &_b_crt_tof_H1V1    );
+		_chain->SetBranchAddress( "crt_tof_H2V2"        , &_crt_tof_H2V2	   , &_b_crt_tof_H2V2    );
+		_chain->SetBranchAddress( "crt_tof"             , &_crt_tof		       , &_b_crt_tof         );		
 		_chain->SetBranchAddress( "crt_track_param"     , _crt_track_param     , &_b_crt_track_param     );
 		_chain->SetBranchAddress( "crt_track_time"      , _crt_track_time      , &_b_crt_track_time      );
 		_chain->SetBranchAddress( "crt_track_pos0"      , _crt_track_pos0      , &_b_crt_track_pos0      );
@@ -98,6 +104,9 @@ void event::set_output_tree( TTree * tree){
 	tree->Branch( "_crt_daq_match"      , &_crt_daq_match       , "_crt_daq_match/I"      );
 	tree->Branch( "crt_reco"            , &_crt_reco            , "_crt_reco/I"           );
 	tree->Branch( "crt_adc"             , &_crt_adc             , "_crt_adc/I"            );
+	tree->Branch( "crt_tof_H1V1"        , &_crt_tof_H1V1        , "_crt_tof_H1V1/F"       );
+	tree->Branch( "crt_tof_H2V2"        , &_crt_tof_H2V2        , "_crt_tof_H2V2/F"       );
+	tree->Branch( "crt_tof"             , &_crt_tof             , "_crt_tof/F"            );
 	tree->Branch( "crt_track_param"     , &_crt_track_param     , "_crt_track_param[2]/F" );
 	tree->Branch( "crt_track_time"      , &_crt_track_time      , "_crt_track_time[2]/I"  );
 	tree->Branch( "crt_track_pos0"      , &_crt_track_pos0      , "_crt_track_pos0[3]/F"  );
@@ -179,4 +188,39 @@ std::vector<int> * event::get_waveform( int ch ){
 	
 	return 0; 
 
+}
+
+std::vector<int> event::get_crt_channel_hits(int plane , double threshold){
+	
+	
+	int * adc = get_crt_adc( plane );
+	
+	std::vector<int> hits;
+	
+	for ( int i = 0; i < 32; i++){
+		
+		if( adc[i] >= threshold ) hits.push_back( i );
+		
+	}
+	
+	return hits;
+	
+}
+
+std::vector<int> event::get_crt_strip_hits(int plane , double threshold){
+	
+	std::vector<int> hits = get_crt_channel_hits(plane, threshold);
+	std::vector<int> strips;
+    std::vector<int>::iterator it;
+
+	for( int i = 0; i < hits.size(); i++){
+		
+		it = find (strips.begin(), strips.end(), hits[i]/2);
+
+		if (it == strips.end()) strips.push_back(hits[i]/2);
+		
+	}
+
+	return strips;
+	
 }
