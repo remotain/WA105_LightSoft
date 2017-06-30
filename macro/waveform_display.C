@@ -11,6 +11,9 @@ void waveform_display(int run_number = 0){
 	// Add root file to process
 	//
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 861) );
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 862) );
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 922) );		
 	//
 	// Create the loop object
 	//
@@ -20,9 +23,16 @@ void waveform_display(int run_number = 0){
 	//
 	module_cut * my_cut = new module_cut();
 
-	my_cut->set_cut_pmt_saturate ();
+	//my_cut->set_cut_pmt_saturate (false);
 	my_cut->set_cut_crt_match    ();
 	my_cut->set_cut_crt_reco     ();
+		
+	//my_cut->set_cut_crt_track_angle (0, 0.1 );
+	//my_cut->set_cut_crt_track_z     (-800, 200 );	
+	
+	//TTimeStamp tstart(2017,6,19,19,0,0,0,kFALSE);	
+	//TTimeStamp tstop(2017,6,19,22,0,0,0,kFALSE);
+	//my_cut->set_cut_time_stamp (tstart.AsDouble(),tstop.AsDouble());	
 		
 	l->add_module( my_cut );
 	l->add_module( new module_evt_display );
@@ -30,5 +40,6 @@ void waveform_display(int run_number = 0){
 	// Run the loop
 	//	
 	t->Process(l);
+	//t->Process(l,"", 10000000000, 21332); // Usage: nMAX, FirsEvent
 	//
 }
