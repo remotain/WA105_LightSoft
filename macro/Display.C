@@ -11,11 +11,27 @@
 #include<TStyle.h>
 #include<TTimeStamp.h>
 
+#include "WaveUtils.h"
 #include "THDet.C"
 
 using namespace std;
 
-void Display(int run_number = 722, bool match = true, bool reco = true){
+struct tot_peak_t {
+  int n;
+  int n_sel;
+  int q;
+};
+
+//bool _find_peaks = false;
+//bool _match = true;
+//bool _reco = true;
+
+bool _find_peaks = false;
+bool _match = false;
+bool _reco = false;
+
+
+void Display(int run_number = 722){
 
 	//
 	// Create the TChain to Display
@@ -80,8 +96,8 @@ void Display(int run_number = 722, bool match = true, bool reco = true){
 
 		t->GetEntry(ev);
 
-		if( match && _crt_daq_match != 1 ) continue;
-		if( reco && _crt_reco != 1 ) continue;
+		if( _match && _crt_daq_match != 1 ) continue;
+		if( _reco && _crt_reco != 1 ) continue;
 
 		//
 		// ADC Waveforms
@@ -101,8 +117,49 @@ void Display(int run_number = 722, bool match = true, bool reco = true){
       	      h4->SetBinContent(i+1,_adc_value_4[i]);			  			  			  	   
 			  h5->SetBinContent(i+1,_adc_value_5[i]);			  			  			  	   
 		}
+						
+		//
+		// Charge calculation
+		//
 		
-
+		tot_peak_t q[5];	
+		
+		if( _find_peaks ) {
+		
+			WaveUtils wu;	
+			TH1F * w[5];
+						
+			w[0] = h0;
+			w[1] = h1;
+			w[2] = h2;
+			w[3] = h3;		
+			w[4] = h4;
+		
+			for( int ch = 0; ch < 5; ch++){
+				
+				wu.FindPeaks(*w[ch],-1,50,_nsamples);
+				
+				int npeaks = wu.peak_list.size();
+			    int nsel = 0;
+			    float totq = 0;
+			
+			    for(int i=0; i<npeaks; ++i) {
+        	
+			      if( !wu.peak_list[i].isolated ) continue;
+			      if( wu.peak_list[i].quality!=0 ) continue;
+        	
+        	
+			      nsel++;
+			      totq += wu.peak_list[i].integ*1.;
+			  	}
+			
+				q[ch].n = npeaks;
+				q[ch].n_sel = nsel;
+				q[ch].q = totq;
+				
+			}
+		} // if( _find_peaks )
+		
 		//
 		// CRT Waveforms
 		//
@@ -185,6 +242,13 @@ void Display(int run_number = 722, bool match = true, bool reco = true){
 		Info("Display", " CRT Match %i, CRT Reco %i", _crt_daq_match, _crt_reco);
 		Info("Display", " CRT Panel 1 (%.1f, %.1f, %.1f)", crt_t.strip_pos1[ x1 ].X(), crt_t.strip_pos1[ 0 ].Y(), crt_t.strip_pos1[ z1 ].Z() );
 		Info("Display", " CRT Panel 2 (%.1f, %.1f, %.1f)", crt_t.strip_pos2[ x2 ].X(), crt_t.strip_pos2[ 0 ].Y(), crt_t.strip_pos2[ z2 ].Z() );
+		
+		if( _find_peaks ) {
+			for( int ch = 0; ch < 5; ch++){
+				Info("Display", " PeakFinder %i: N = %i, N_sel = %i, Q = %.2d", ch, q[ch].n, q[ch].n_sel, q[ch].q);		
+			}
+		}
+		
 		//
 		// Draw
 		//
@@ -234,6 +298,31 @@ void Display(int run_number = 722, bool match = true, bool reco = true){
 				gSystem->Exit(0);
 			} if( key == 's' || key == 'S') {
 				c->Update();
+				
+				c->Print( TString::Format("display_evt_%i.png", ev) );			
+				TFile * tmp_f = new TFile(TString::Format("display_evt_%i.root", ev), "RECREATE" );
+				
+				h0->Write();
+				h1->Write();
+				h2->Write();
+				h3->Write();
+				h4->Write();
+				h5->Write();
+				
+				a_0->Write();
+				a_1->Write();
+				a_2->Write();
+				a_3->Write();
+				
+				crt_xy_1->Write();
+		        crt_xy_2->Write();
+				
+				crt_view_yz->Write(); 
+				crt_view_xy->Write(); 
+				
+				yz_line->Write();
+				xy_line->Write();
+				
 			} else {
 				break;
 			}
