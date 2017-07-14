@@ -1,3 +1,4 @@
+#include<TSystem.h>
 #include <TChain.h>
 #include <TBranch.h>
 #include <TFile.h>
@@ -91,15 +92,6 @@ void light_level(int run_number = 949){
 		      nsel++;
 		      totq += wu.peak_list[i].integ*1.;
 
-		      nt->Fill(ev
-			      ,wu.peak_list[i].imax*4.
-			      ,wu.peak_list[i].integ*1.
-			      ,(wu.peak_list[i].ilast-wu.peak_list[i].ifirst+1)*1.
-			      ,wu.peak_list[i].amp*1.
-			      ,0
-			      );
-
-
 			  ntp->Fill(ev,
 			  		c, 
 			  		wu.peak_list[i].imax*4.,
@@ -150,10 +142,60 @@ void light_level(int run_number = 949){
 	
 	c->BuildLegend();
 	
-	Info("LightLevel", "Channel %i, Mean: %.2f, RMS: %.2f", 0, h0->GetMean(), h0->GetRMS());
-	Info("LightLevel", "Channel %i, Mean: %.2f, RMS: %.2f", 1, h1->GetMean(), h1->GetRMS());
-	Info("LightLevel", "Channel %i, Mean: %.2f, RMS: %.2f", 2, h2->GetMean(), h2->GetRMS());
-	Info("LightLevel", "Channel %i, Mean: %.2f, RMS: %.2f", 3, h3->GetMean(), h3->GetRMS());
-	Info("LightLevel", "Channel %i, Mean: %.2f, RMS: %.2f", 4, h4->GetMean(), h4->GetRMS());
+	Info("LightLevel (Pulse)", "Channel %i, Mean: %.2f, RMS: %.2f", 0, h0->GetMean(), h0->GetRMS());
+	Info("LightLevel (Pulse)", "Channel %i, Mean: %.2f, RMS: %.2f", 1, h1->GetMean(), h1->GetRMS());
+	Info("LightLevel (Pulse)", "Channel %i, Mean: %.2f, RMS: %.2f", 2, h2->GetMean(), h2->GetRMS());
+	Info("LightLevel (Pulse)", "Channel %i, Mean: %.2f, RMS: %.2f", 3, h3->GetMean(), h3->GetRMS());
+	Info("LightLevel (Pulse)", "Channel %i, Mean: %.2f, RMS: %.2f", 4, h4->GetMean(), h4->GetRMS());
+
+	//
+	// Total charge
+	//
+
+
+	TH1F* h0_tot = new TH1F("h0_tot", "Channel 0; Total Charge [A.U.]; ", 500, -50, 500);
+	TH1F* h1_tot = new TH1F("h1_tot", "Channel 1; Total Charge [A.U.]; ", 500, -50, 500);
+	TH1F* h2_tot = new TH1F("h2_tot", "Channel 2; Total Charge [A.U.]; ", 500, -50, 500);
+	TH1F* h3_tot = new TH1F("h3_tot", "Channel 3; Total Charge [A.U.]; ", 500, -50, 500);
+	TH1F* h4_tot = new TH1F("h4_tot", "Channel 4; Total Charge [A.U.]; ", 500, -50, 500);	
+		
+	nt->Draw("qsum>>h0_tot", "ch==0&&qsum!=0","goff");
+	nt->Draw("qsum>>h1_tot", "ch==1&&qsum!=0","goff");
+	nt->Draw("qsum>>h2_tot", "ch==2&&qsum!=0","goff");	
+	nt->Draw("qsum>>h3_tot", "ch==3&&qsum!=0","goff");		
+	nt->Draw("qsum>>h4_tot", "ch==4&&qsum!=0","goff");
+	
+	//h0_tot->Scale(1/(double)h0_tot->GetEntries()); 
+	//h1_tot->Scale(1/(double)h1_tot->GetEntries()); 	
+	//h2_tot->Scale(1/(double)h2_tot->GetEntries()); 	
+	//h3_tot->Scale(1/(double)h3_tot->GetEntries()); 	
+	//h4_tot->Scale(1/(double)h4_tot->GetEntries()); 
+	
+	//h0->SetMarkerColor(); //h0->SetLineColor();
+	h1_tot->SetMarkerColor(kRed);	 h1_tot->SetLineColor(kRed);	
+	h2_tot->SetMarkerColor(kGreen+2); h2_tot->SetLineColor(kGreen+2);
+	h3_tot->SetMarkerColor(kMagenta); h3_tot->SetLineColor(kMagenta);
+	h4_tot->SetMarkerColor(kOrange);	 h4_tot->SetLineColor(kOrange);	
+	
+	TCanvas * c_tot = new TCanvas("light_level_tot", "Light Level");
+	gStyle->SetOptStat(0);
+	gStyle->SetOptTitle(false);
+	c_tot->SetLogy(true);
+	
+	h0_tot->Draw("hist");
+	h1_tot->Draw("hist,same");
+	h2_tot->Draw("hist,same");
+	h3_tot->Draw("hist,same");
+	h4_tot->Draw("hist,same");
+	
+	c_tot->BuildLegend();
+	
+	Info("LightLevel (Total)", "Channel %i, Mean: %.2f, RMS: %.2f", 0, h0_tot->GetMean(), h0_tot->GetRMS());
+	Info("LightLevel (Total)", "Channel %i, Mean: %.2f, RMS: %.2f", 1, h1_tot->GetMean(), h1_tot->GetRMS());
+	Info("LightLevel (Total)", "Channel %i, Mean: %.2f, RMS: %.2f", 2, h2_tot->GetMean(), h2_tot->GetRMS());
+	Info("LightLevel (Total)", "Channel %i, Mean: %.2f, RMS: %.2f", 3, h3_tot->GetMean(), h3_tot->GetRMS());
+	Info("LightLevel (Total)", "Channel %i, Mean: %.2f, RMS: %.2f", 4, h4_tot->GetMean(), h4_tot->GetRMS());
+
+
 	
 }

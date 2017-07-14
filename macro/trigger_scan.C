@@ -3,18 +3,32 @@ void trigger_scan(){
 	double x_4us[13] = {3600,3625,3650,3675,3700,3725,3750,3775,3800,3825,3850,3875,3900};
 	double r_4us[13] = {1.2,1.3,1.5,1.8,2.1,2.6,3.3,4.0,5.1,6.9,9.3,15.4,25.6};
 	double e_4us[13] = {0.04,0.04,0.05,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.3,0.5,0.8};
-
+    
 	double x_1ms[12] = {3000, 3100, 3200, 3300, 3400, 3500, 3600, 3650, 3700, 3750, 3800, 3900};
 	double r_1ms[12] = {0.158, 0.194, 0.258, 0.315, 0.41, 0.64, 1.06, 1.45, 2.24, 3.3, 5.0, 9.8};
 	double e_1ms[12] = {0.01, 0.01, 0.01, 0.01, 0.01, 0.02, 0.03, 0.05, 0.1, 0.1, 0.2, 0.3};
 		
+	//double x_4us_80ns[11] = {3650, 3675, 3700, 3725, 3750, 3775, 3800, 3825, 3850, 3875, 3900};
+	//double r_4us_80ns[11] = {1.225, 1.594, 1.886, 2.293, 2.816, 3.745, 4.901, 6.622, 9.615, 14.705, 27.027};
+	//double e_4us_80ns[11] = {.038, .050, .059, .072, .089, .118, .155, .209, .304, .465, .854};
+
+	double x_4us_80ns[11] = {3650, 3675, 3700, 3725, 3750, 3775, 3800, 3825, 3850, 3875, 3900};
+	double r_4us_80ns[11] = {1.203, 1.355, 1.730, 2.053, 2.557, 3.003, 4.184, 5.747, 7.692, 12.195, 20.000};
+	double e_4us_80ns[11] = {.038, .042, .054, .064, .080, .094, .132, .181, .243, .385, .632};
+
 		
 
 	TGraphErrors * g_4us = new TGraphErrors(13, x_4us, r_4us, 0, e_4us);
 	g_4us->SetTitle("Readout 4 #mus");
 	g_4us->SetFillColor(0);
 	g_4us->SetMarkerStyle(20);
-	
+
+	TGraphErrors * g_4us_80ns = new TGraphErrors(11, x_4us_80ns, r_4us_80ns, 0, e_4us_80ns);
+	g_4us_80ns->SetTitle("Readout 4 #mus coincidence window 80 ns");
+	g_4us_80ns->SetFillColor(0);
+	g_4us_80ns->SetMarkerStyle(20);
+	g_4us_80ns->SetMarkerColor(kOrange);
+
 	TGraphErrors * g_1ms = new TGraphErrors(12, x_1ms, r_1ms, 0, e_1ms);
 	g_1ms->SetTitle("Readout 1 ms");
 	g_1ms->SetFillColor(0);
@@ -22,13 +36,14 @@ void trigger_scan(){
 	g_1ms->SetMarkerColor(kRed);	
 	
 	TMultiGraph * g_m = new TMultiGraph();
-	g_m->Add(g_4us);
-	g_m->Add(g_1ms);
+	//g_m->Add(g_4us);
+	//g_m->Add(g_1ms);
+	g_m->Add(g_4us_80ns);
 	
 	TCanvas * c = new TCanvas();	
 	g_m->Draw("ALP");
 	g_m->SetTitle("Trigger Scan; Threshold [ADC]; Rate [Hz]");
-	c->BuildLegend();		
+	//c->BuildLegend();		
 	
 }
 

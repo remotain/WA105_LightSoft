@@ -1,80 +1,109 @@
-{
+#include<TFile.h>
+#include<TChain.h>
+#include<TBranch.h>
+#include<TH1F.h>
+#include<TGraph.h>
+#include<TCanvas.h>
+#include<TPad.h>
+#include<TStyle.h>
+#include<TMath.h>
+#include<iostream>
 
-TFile *_file0 = TFile::Open("$WLS_DATA/output00000772.root");
+void trigger_rate(int run_number = 722){
 
-double t_min = midas_data->GetMinimum("TimeStamp");
-double t_max = midas_data->GetMaximum("TimeStamp");
+	//
+	// Create the TChain to Display
+	//
+	TChain * t = new TChain("midas_data");
+
+	//
+	// Add root file to Display
+	//
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
+
+int t_min = t->GetMinimum("TimeStamp");
+int t_max = t->GetMaximum("TimeStamp");
 double t_l = t_max-t_min;
 
-TString s = Form("TimeStamp-%f>>h0(1000, 0, %f)", t_min, t_l);
+cout << t_min << " " << t_max << endl;
 
-midas_data->Draw(s,"", "goff");
-h0->Scale(1000/t_l);
+t->SetBranchStatus("*",0); //disable all branches
 
-TString s1 = Form("TimeStamp-%f>>h1(1000, 0, %f)", t_min, t_l);
-TString w1 = Form("crt_daq_match");
-midas_data->Draw(s1,w1, "goff");
-h1->Scale(1000/t_l);
+int ts; 
+TBranch * _b_ts; t->SetBranchStatus("TimeStamp", 1);  
+t->SetBranchAddress("TimeStamp", &ts, &_b_ts);	
 
-TString s2 = Form("TimeStamp-%f>>h2(1000, 0, %f)", t_min, t_l);
-TString w2 = Form("crt_daq_match&&crt_reco");
-midas_data->Draw(s2,w2, "goff");
-h2->Scale(1000/t_l);
+unsigned int tt; 
+TBranch * _b_tt; t->SetBranchStatus("TriggerTimeTag", 1);  
+t->SetBranchAddress("TriggerTimeTag", &tt, &_b_tt);	
 
+TH1F * h0 = new TH1F("h0", "h0", 1000, t_min, t_max);
+TH1F * hdt = new TH1F("hdt", "Event #Deltat;#Deltat [s]; Entries", 1e6, 0, 0);
+
+unsigned int prev_tt = 0;
+
+for( int i = 0; i < t->GetEntries(); ++i ){
+	
+	t->GetEntry(i);
+	
+	h0->Fill(ts);
+	
+	//cout << i << " " << ts << " " << tt << " " << prev_tt << endl;
+	
+	if( prev_tt != 0 ) hdt->Fill( (tt - prev_tt)*8*1e-9 );
+	
+	prev_tt = tt;
+	
+}
+
+h0->Scale( h0->GetNbinsX()/t_l );
 
 TCanvas * c = new TCanvas();
 
 gStyle->SetOptStat(0);
 
-c->SetLogy(true);
+//c->SetLogy(true);
 
 h0->SetLineColor(kBlack);
 h0->Draw();
 
-h1->SetLineColor(kBlue);
-h1->Draw("sames");
+h0->SetTitle("Trigger rate");
 
-h2->SetLineColor(kRed);
-h2->Draw("sames");
+h0->GetXaxis()->SetTitle("Run time");
+h0->GetXaxis()->SetTimeDisplay(1);
+h0->GetXaxis()->SetTimeOffset(3600);
+h0->GetXaxis()->SetTimeFormat("%H:%M");
 
-h0->SetTitle("External trigger rate");
-h0->GetXaxis()->SetTitle("Run time [s]");
+
 h0->GetYaxis()->SetTitle("Trigger rate [Hz]");
-h0->GetYaxis()->SetRangeUser(1e-3,1);
+h0->GetYaxis()->SetRangeUser(0,5);
+
+h0->Fit("pol0","L");
 
 c->Update();
 
-std::cout<<"Noe: " << midas_data->GetEntries()   << " Rate: " << midas_data->GetEntries()/t_l   << " +/- " << sqrt(midas_data->GetEntries())/t_l   << std::endl;
-std::cout<<"Noe: " << midas_data->GetEntries(w1) << " Rate: " << midas_data->GetEntries(w1)/t_l << " +/- " << sqrt(midas_data->GetEntries(w1))/t_l << std::endl;
-std::cout<<"Noe: " << midas_data->GetEntries(w2) << " Rate: " << midas_data->GetEntries(w2)/t_l << " +/- " << sqrt(midas_data->GetEntries(w2))/t_l << std::endl;
+TCanvas * cdt = new TCanvas();
 
+gStyle->SetOptStat(111110);
 
-//TTree *_tree = (TTree*)_file0->Get("midas_data");
-//_tree->SetBranchStatus("*",0);
-//
-//Int_t TimeStamp;
-//Int_t PrevTimeStamp;
-//_tree->SetBranchStatus("TimeStamp",1);
-//_tree->SetBranchAddress("TimeStamp",&TimeStamp);
-//
-//TH1F *hdt = new TH1F("hdt","Event #Delta t ; Time (ns); Counts",100,0,100);
-//
-//_tree->GetEntry(0);
-//PrevTimeStamp=TimeStamp;
-//
-//UInt_t noe = _tree->GetEntries();
-//
-//for (UInt_t i = 1; i < noe; ++i) {
-//
-//	_tree->GetEntry(i);
-//
-//	Double_t Delta = PrevTimeStamp - TimeStamp;
-//	hdt->Fill(Delta);
-//	PrevTimeStamp = TimeStamp;
-//	}
-//
-//TCanvas * cc = new TCanvas();
-//hdt->Draw();
-//cc->Update();
+gPad->SetLogx(true);
+
+hdt->Draw();
+
+//TF1 * f1 = new TF1("f1","[0]*TMath::Power(([1]/[2]),(x/[2]))*(TMath::Exp(-([1]/[2])))/TMath::Gamma((x/[2])+1)",1e-5,0.5);
+//f1->SetParameters( 0.1, 1., 1.);
+//hdt->Fit("f1","R");
+
+gStyle->SetOptFit(1);
+
+cdt->Update();
+
+std::cout << "Noe: " << t->GetEntries() << " Run time [s]: " << t_l << std::endl;
+std::cout << "Rate [Hz]: " << t->GetEntries()/t_l   << " +/- " << sqrt(t->GetEntries())/t_l   << std::endl;
+
+TFile fout(TString::Format("trigger_rate_%08d.root", run_number), "RECREATE");
+h0->Write();
+hdt->Write();
+fout.Close();
 
 }

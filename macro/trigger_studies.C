@@ -1,3 +1,5 @@
+#include<TSystem.h>
+#include<TObject.h>
 #include <TChain.h>
 #include <TBranch.h>
 #include <TFile.h>
@@ -5,6 +7,8 @@
 #include <TCanvas.h>
 #include <TH1F.h>
 #include <TStyle.h>
+
+TNtuple *nt = new TNtuple("nt","","ev:ch:tmax:amax");
 
 void trigger_studies(int run_number = 1051){
 
@@ -31,22 +35,23 @@ void trigger_studies(int run_number = 1051){
 	TBranch * _b_adc_value_3; t->SetBranchAddress("adc_value_3"   , _adc_value[3]      , &_b_adc_value_3   );
 	TBranch * _b_adc_value_4; t->SetBranchAddress("adc_value_4"   , _adc_value[4]      , &_b_adc_value_4   );
 	TBranch * _b_adc_value_5; t->SetBranchAddress("adc_value_5"   , _adc_value[5]      , &_b_adc_value_5   );
+
 		
 	TH1F t_diff("t_diff", "Time delay channel by channel", 1000, -500, 500);
 	TH1F t_amp("t_amp", "Max amp", 4096, 0, 4096);
 	TH1F t_max("t_max", "Time max amp", 1000, 0, 4000);
-	
+			
 	//for(int ev=0; ev < 10 ; ++ev) {
 	
 	for(int ev=0; ev < t->GetEntries()-1 ; ++ev) {
 	
 		t->GetEntry(ev);
 		
-	    int frac = (int) round(100 * ev / t->GetEntriesFast());
-	
-		if ( ev % (int)round(1+(0.1*t->GetEntriesFast())) == 0 ){
-			Info("Process", "%2i %% Entry (%i/%lli)" , frac, ev, t->GetEntriesFast());
-		}
+	    //int frac = (int) round(100 * ev / t->GetEntriesFast());
+	    //
+		//if ( ev % (int)round(1+(0.1*t->GetEntriesFast())) == 0 ){
+		//	Info("Process", "%2i %% Entry (%i/%lli)" , frac, ev, t->GetEntriesFast());
+		//}
 	
 		float amp[5] = {4096,4096,4096,4096,4096};
 		int t[5] = {0,0,0,0,0};
@@ -77,6 +82,8 @@ void trigger_studies(int run_number = 1051){
 			t_max.Fill(t[c]);
  			t_amp.Fill(amp[c]); 
 			  
+			nt->Fill(ev, c, t[c], amp[c]) ;
+			  
 			for(int cc = 0; cc < 5; cc++){	
 				if( c != cc) 
 					t_diff.Fill( t[c] - t[cc]);
@@ -90,6 +97,7 @@ void trigger_studies(int run_number = 1051){
 	t_diff.Write();
 	t_amp.Write();
 	t_max.Write();
+   	nt->Write();
    
 } // End macro
 

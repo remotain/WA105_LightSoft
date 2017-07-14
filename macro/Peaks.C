@@ -34,11 +34,14 @@ void Peaks(int run_number = 722) {
   int adc_value[4][NSAMPLES];
   
   WaveUtils wu;
+  wu.fSaveSinglePeakHist = false;
 
   TH1F h("h",";time sample [ns]; amplitude [ADC counts]",NSAMPLES,-0.5,NSAMPLES*4-0.5);
   
-  for(int ev=0; ev < t->GetEntries()-1 ; ++ev) {
-	//for(int ev=0; ev < 10 ; ++ev) {
+  fout.cd();
+  
+  //for(int ev=0; ev < t->GetEntries()-1 ; ++ev) {
+	  for(int ev=1; ev < 2 ; ++ev) {
 
     //if(ev!=11) continue;
 
@@ -78,7 +81,9 @@ void Peaks(int run_number = 722) {
       h.SetBinContent(i+1,amp);
     }
 
-    wu.FindPeaks(h,-1,50,nsamples);
+    wu.FindPeaks(h,-1,50,100000);
+
+	//wu.FindPeaks(h,-1,50,10000);
 
     /*
     for(int b=1; b<=wu.fHistWave.GetNbinsX(); ++b){
@@ -94,19 +99,22 @@ void Peaks(int run_number = 722) {
     */
 
 
-    if( wu.fPedestalOK )
-      for(int b=1, w=10; b<=1000; b+=w) {
-	nti->Fill(ev,wu.fHistWave.Integral(b,b+w-1),0);
-      }
+    //if( wu.fPedestalOK )
+    //  for(int b=1, w=10; b<=1000; b+=w) {
+	//nti->Fill(ev,wu.fHistWave.Integral(b,b+w-1),0);
+    //  }
 
     
     int npeaks = wu.peak_list.size();
     
-
+	cout<<" npeaks " << npeaks << endl;
+	
     int nsel = 0;
     float totq = 0;
     
     for(int i=0; i<npeaks; ++i) {
+
+		cout<<" picco "<<i<<endl;
 
       if( !wu.peak_list[i].isolated ) continue;
       if( wu.peak_list[i].quality!=0 ) continue;
@@ -133,12 +141,9 @@ void Peaks(int run_number = 722) {
     
   }//ev
 
-
-  fout.cd();
-
   nt->Write();
-  nti->Write();
-  nte->Write();
+  //nti->Write();
+  //nte->Write();
 
   
 }//Peaks

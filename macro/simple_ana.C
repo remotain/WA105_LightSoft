@@ -41,9 +41,9 @@ void simple_ana(int run_number = 0){
 	//
 	module_cut * my_cut = new module_cut();
 
-	my_cut->set_cut_crt_match    ();
-	my_cut->set_cut_crt_reco     ();
-	my_cut->set_cut_pmt_saturate ();
+	//my_cut->set_cut_crt_match    ();
+	//my_cut->set_cut_crt_reco     ();
+	//my_cut->set_cut_pmt_saturate ();
 	//my_cut->set_cut_pmt_peak_t   (400, 700);
 	//my_cut->set_cut_crt_delta_t     (100., 130. );
 	//my_cut->set_cut_crt_track_angle (0., 0.1. );
