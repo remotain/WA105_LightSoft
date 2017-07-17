@@ -2,11 +2,13 @@
 #include<TChain.h>
 #include<TBranch.h>
 #include<TH1F.h>
+#include<TNtuple.h>
 #include<TGraph.h>
 #include<TCanvas.h>
 #include<TPad.h>
 #include<TStyle.h>
 #include<TMath.h>
+#include<TString.h>
 #include<iostream>
 #include<fstream>
 
@@ -23,15 +25,23 @@ void pedestal_hv_corr(){
 	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", run_number) );
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1225) );
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1228) );
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1229) );	
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1234) );		
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1235) );		
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1236) );				
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1237) );				
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1238) );				
-	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1239) );							
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1229) );	
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1234) );		
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1235) );		
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1236) );				
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1237) );				
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1238) );				
+	//t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1239) );							
 
-	int adc_value[6][100];
+    t->Add( TString::Format("$EOS_PATH/output%08d.root", 1225) );
+     t->Add( TString::Format("$EOS_PATH/output%08d.root", 1228) );
+     t->Add( TString::Format("$EOS_PATH/output%08d.root", 1229) );
+
+     for(int i = 1234; i<1253; i++)
+       t->Add( TString::Format("$EOS_PATH/output%08d.root", i) );
+
+
+	int adc_value[6][300000];
 	int ts; 
 	
 	t->SetBranchStatus("*",0); //disable all branches
@@ -51,18 +61,15 @@ void pedestal_hv_corr(){
 	int t_max = t->GetMaximum("TimeStamp");
 	double t_l = t_max-t_min;
 
+	TNtuple * tuple = new TNtuple("tuple","tuple","ts:ch:ped:rms");
+
 	//
 	// Pedestals
 	//
-
-	TGraph * gped[5];
-	TGraph * grms[5];
 	int nevt[5];
 	double ped[5];
 	double rms[5];
 	for(int c = 0; c < 5; c++){
-		gped[c] = new TGraph();
-		grms[c] = new TGraph();
 		nevt[c] = 0;
 		ped[c] = 0;
 		rms[c] = 0;		
@@ -71,7 +78,7 @@ void pedestal_hv_corr(){
 	int t_prev = 0;
 	int npt = 0;
 	
-	for(int i = 0; i < t->GetEntriesFast(); ++i){
+	for(int i = 0; i < t->GetEntries(); ++i){
 		
 		t->GetEntry(i);
 			
@@ -80,19 +87,33 @@ void pedestal_hv_corr(){
 		if( t_prev == 0 ) t_prev = ts;
 			
 		for(int c = 0; c < 5; c++){
+					  
+			for(int j = 0; j < 100; j++){		  
 					    	
-			ped[c] += TMath::Mean(100, adc_value[c]);
-			rms[c] += TMath::RMS(100, adc_value[c]);
+				ped[c] += adc_value[c][j];
+				rms[c] += adc_value[c][j]*adc_value[c][j];
+											
+				//ped[c] += TMath::Mean(100, adc_value[c]);
+				//rms[c] += TMath::RMS(100, adc_value[c]);
+			}
+			
 			nevt[c]++;
 						    	
 		}
 		
 		// smoothing 1s
-		if( ts -  t_prev >= 1 ){
+		if( ts -  t_prev >= 10 ){
 		
 			for(int c = 0; c < 5; c++){
-				gped[c]->SetPoint(npt, ts, ped[c]/nevt[c]);
-				grms[c]->SetPoint(npt, ts, rms[c]/nevt[c]);
+				
+				double norm = nevt[c]*100.;
+				ped[c]/=norm;
+				rms[c]=TMath::Sqrt(rms[c]/norm -ped[c]*ped[c]) ;
+				
+				tuple->Fill(ts,c,ped[c],rms[c]);
+				
+				//gped[c]->SetPoint(npt, ts, ped[c]/nevt[c]);
+				//grms[c]->SetPoint(npt, ts, rms[c]/nevt[c]);
 				ped[c]=0;
 				rms[c]=0;
 				nevt[c]=0;
@@ -125,6 +146,19 @@ void pedestal_hv_corr(){
 		}
 		
     }
+
+	TGraph * gped[5];
+	TGraph * grms[5];
+	for(int c = 0; c < 5; c++){
+		gped[c] = new TGraph(); gped[c]->SetName( TString::Format("ped_%i",c) );
+		grms[c] = new TGraph(); grms[c]->SetName( TString::Format("rms_%i",c) );
+
+		tuple->Draw( TString::Format("ped:ts>>ped_%i",c),TString::Format("ch==%i",c));
+		tuple->Draw( TString::Format("rms:ts>>ped_%i",c),TString::Format("ch==%i",c));
+
+	}	
+
+
 	
 TCanvas * c_ped = new TCanvas();
 
@@ -203,6 +237,8 @@ for(int c = 0; c < 5; c++){
 	gped[c]->Write();
 	grms[c]->Write();
 }
+
+tuple->Write();
 
 fout.Close();
 
