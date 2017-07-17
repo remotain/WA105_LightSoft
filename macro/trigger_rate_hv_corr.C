@@ -9,6 +9,7 @@
 #include<TMath.h>
 #include<iostream>
 #include<fstream>
+#include<string>
 
 void get_pvss_data( const char * fn, int ts_start, int ts_stop, TGraph & g, bool debug = false){
 	
@@ -19,10 +20,15 @@ void get_pvss_data( const char * fn, int ts_start, int ts_stop, TGraph & g, bool
 	ifs.open(fn, std::ifstream::in);
 	if( !ifs.is_open() ) Fatal("","PVSS Data not open!");
 
+	// Get rid of the fist line
+	string tmp;
+	getline(ifs, tmp);
+
+
 	int np = 0;
     int ts_raw;
 	double vv_raw;
-	
+	   
 	while (ifs.good()) {
        ifs >> ts_raw >> vv_raw;
 	   
@@ -55,6 +61,9 @@ void trigger_rate_hv_corr(){
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1234) );		
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1235) );		
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1236) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1237) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1238) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1239) );							
 
 	int adc_value[6][300000];
 	int ts; 
@@ -88,9 +97,11 @@ void trigger_rate_hv_corr(){
 	// Get PVSS Data
 	//
 	TGraph * g_grid = new TGraph();	
+	g_grid->SetName("g_grid");
 	get_pvss_data("/Users/alberto/Software/WA105/WA105_LightSoft/PVSS_data/grid_HV.txt", t_min, t_max, *g_grid);
 
 	TGraph * g_lem = new TGraph();	
+	g_lem->SetName("g_lem");
 	get_pvss_data("/Users/alberto/Software/WA105/WA105_LightSoft/PVSS_data/lem06d_HV.txt", t_min, t_max, *g_lem);
 	
 	TCanvas * c = new TCanvas();
@@ -110,10 +121,10 @@ void trigger_rate_hv_corr(){
     c->cd(3)->SetTicky() ;
 	
 	c->cd(1)->SetTopMargin(0);
-	c->cd(1)->SetBottomMargin(0);
-	c->cd(2)->SetTopMargin(0);
-	c->cd(2)->SetBottomMargin(0);
-	c->cd(3)->SetTopMargin(0);
+	//c->cd(1)->SetBottomMargin(0);
+	//c->cd(2)->SetTopMargin(0);
+	//c->cd(2)->SetBottomMargin(0);
+	//c->cd(3)->SetTopMargin(0);
 		
 	gStyle->SetOptStat(0);
 		

@@ -27,8 +27,11 @@ void pedestal_hv_corr(){
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1234) );		
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1235) );		
 	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1236) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1237) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1238) );				
+	t->Add( TString::Format("$WLS_PATH/examples/output%08d.root", 1239) );							
 
-	int adc_value[6][300000];
+	int adc_value[6][100];
 	int ts; 
 	
 	t->SetBranchStatus("*",0); //disable all branches
@@ -106,7 +109,7 @@ void pedestal_hv_corr(){
 	// Get PVSS Data
 	//
 	std::ifstream ifs;
-	ifs.open("/Users/alberto/Software/WA105/WA105_LightSoft/PVSS_data/grid_HV_0711_0712.txt", std::ifstream::in);
+	ifs.open("/Users/alberto/Software/WA105/WA105_LightSoft/PVSS_data/grid_HV.txt", std::ifstream::in);
 
 	TGraph * gv = new TGraph();	
 	int np = 0;
